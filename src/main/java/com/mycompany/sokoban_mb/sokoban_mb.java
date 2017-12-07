@@ -25,7 +25,7 @@ public class sokoban_mb extends JFrame {
      */
     public static void main(String[] args) {
         //  setting up display mode to 800x600  16bits  default refresh rate
-        DisplayMode displayMode = new DisplayMode(800, 600, 16, DisplayMode.REFRESH_RATE_UNKNOWN);
+        DisplayMode displayMode = new DisplayMode(600, 42340, 16, DisplayMode.REFRESH_RATE_UNKNOWN);
         // method sets full screen
         sokoban_mb sokoban = new sokoban_mb();
         // run  will take displayMode as parameter
