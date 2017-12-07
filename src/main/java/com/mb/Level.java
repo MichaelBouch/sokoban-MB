@@ -9,9 +9,6 @@ package com.mb;
  *
  * @author user
  */
-public class Game {
-    
+public class Level {
     
 }
-
-

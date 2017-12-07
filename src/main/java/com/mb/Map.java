@@ -5,17 +5,10 @@
  */
 package com.mb;
 
-import static javax.swing.Spring.height;
-import static javax.swing.Spring.width;
-
 /**
  *
  * @author user
  */
-public class Map 
-{
- Map [][] MapElement;   
-
-
- 
+public class Level {
+    
 }
