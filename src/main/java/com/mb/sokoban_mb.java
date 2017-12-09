@@ -20,48 +20,48 @@ import javax.swing.JFrame;
 //  JFrame call method  paint automatically
 public class sokoban_mb extends JFrame {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        //  setting up display mode to 800x600  16bits  default refresh rate
-        DisplayMode displayMode = new DisplayMode(800, 600, 16, DisplayMode.REFRESH_RATE_UNKNOWN);
-        // method sets full screen
-        sokoban_mb sokoban = new sokoban_mb();
-        // run  will take displayMode as parameter
-        sokoban.run(displayMode);
+    //    deklaracja tablicy mapy
+//nowy = nowy;
+    Level levelNo1 = new Level();
+    PaintLevel rysowanie;
+
+    //  JFrame levcall method  paint automatically
+    @Override
+    public void paint(Graphics graphics) {
+        graphics.drawRect(100, 30, 30, 40);
+//        levelNo1.paintLevel(graphics);
+        rysowanie.paintLevel(graphics);
+//        levelNo1.paintLevel(levelNo1, graphics);
+        graphics.drawString("This is going to be game", 200, 200);
     }
 
     // is going to call full screen
     public void run(DisplayMode displayMode) {
+//        cokolwiek = newLevel.createLevel(6, 6);
+        levelNo1.createLevel(6, 6);
+//        Level newMap = Level.getLevel();
+//        rysowanie = new PaintLevel(levelNo1);
+        setBounds(100, 100, 400, 300);
+        setVisible(true);
         setBackground(Color.ORANGE);
         setForeground(Color.GREEN);
         setFont(new Font("Arial", Font.PLAIN, 14));
 
-        Screen screen = new Screen();
         try {
-            // changing to full screen
-            screen.setFullScreen(displayMode, this);
             try {
                 // pause gives chance to see if 
-                Thread.sleep(5000);
+//                Thread.sleep(5000);
             } catch (Exception ex) {
             }
         } finally {
-            // restoring to normal size
-            screen.restoreScreen();
         }
     }
 
-    //  JFrame call method  paint automatically
-    public void paint(Graphics graphics) {
-        //  if graphics is not a Graphics2D object is going to create graphics2d object from graphics
-        //  to be able to apply Antialiasing
-//        if (graphics instanceof Graphics2D){
-//            Graphics2D graphics2d = (Graphics2D)graphics;
-//            graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//        }
-        graphics.drawRect(100, 30, 30, 40);
-        graphics.drawString("This is going to be game", 200, 200);
+    /**
+     * * @param args the command line arguments
+     */
+    public static void main(String[] args) {      //  setting up display mode to 800x600  16bits  default refresh rate //        DisplayMode displayMode = new DisplayMode(800, 600, 16, DisplayMode.REFRESH_RATE_UNKNOWN);         // method sets full screen
+        sokoban_mb sokoban = new sokoban_mb();    // run  will take displayMode as parameter
+        sokoban.run(null);
     }
 }
