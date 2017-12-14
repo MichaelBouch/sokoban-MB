@@ -6,42 +6,39 @@ import static com.mb.MapElement.SOCKET;
 import static com.mb.MapElement.EMPTY;
 import static com.mb.MapElement.PLAYER;
 import static com.mb.MapElement.FLOOR;
-import java.awt.Graphics;
-import java.awt.List;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Level {
 
+    /**
+     * // deklaracja obektu lvl klasy Level Level lvl; // deklaracja i
+     * jednoczesne utworzeni obektu lvl klasy Level Level lvl = new Level(); //
+     * konstruktor bezpareametroey Level lvl = new Level(123); // konstruktor z
+     * prametrem typu int // utworzenie obiektu klasy Level i przypisanie do
+     * obieku (bez deklaracji - mus byc zadeklarowabe wczesnije) lvl = new
+     * Level(); // tylko utworzenie nowgo obiektu klasy Level (bez sensu
+     * wyglada, ale w sciadze pisze): new Level(); // przekaznie nowo
+     * utworzonego obiektu do metody zrobCos(new Level()); // wywolanie metody
+     * // wywolanie metoddy z obiektem zadklarowany wczesniej zrobCos(lvl);
+     */
     int levelWidth = 0;
     int levelHeight = 0;
+    int playerPositionX;
+    int playerPositionY;
     //  deklaracja tablicy obiektow MapElement
     MapElement[][] arrayOfMapElements;
+    MapElement[][] arrayOfMovableElements;
+    //  deklaracja tablicy stringow
     String[] loadedFile;
     ArrayList<String> lines;
     Level tempLevel;
 
     public MapElement[][] getArrayOfMapElements() {
         return arrayOfMapElements;
-    }
-
-    //  metoda tworzenia tablicy z obiektow MapElement
-    //  metoda przypisuje wynik do arrayOfMapElements
-    public void createLevel(int x, int y) {
-        MapElement[][] tempLevel = new MapElement[x][y];
-        for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                tempLevel[j][i] = new MapElement(WALL);
-            }
-        }
-        arrayOfMapElements = tempLevel;
-        //  return tempLevel;
     }
 
     public void createLevelFromFile(int levelNumberToLoad) {
@@ -78,10 +75,14 @@ public class Level {
                         tempLevel[nCharacter][nLine] = new MapElement(SOCKET);
                         break;
                     case 'P':
-                        tempLevel[nCharacter][nLine] = new MapElement(PLAYER);
+                        tempLevel[nCharacter][nLine] = new MapElement(FLOOR);
+                        tempLevel[nCharacter][nLine].setMovable(new MapElement(PLAYER));
+                        playerPositionX = nCharacter;
+                        playerPositionY = nLine;
                         break;
                     case 'B':
-                        tempLevel[nCharacter][nLine] = new MapElement(BOX);
+                        tempLevel[nCharacter][nLine] = new MapElement(FLOOR);
+                        tempLevel[nCharacter][nLine].setMovable(new MapElement(BOX));
                         break;
                     case '_':
                         tempLevel[nCharacter][nLine] = new MapElement(EMPTY);
@@ -95,7 +96,117 @@ public class Level {
         arrayOfMapElements = tempLevel;
     }
 
+    public void startKeyboardHandl() {
+        KeyboardFocusManager.
+                getCurrentKeyboardFocusManager().
+                addKeyEventDispatcher(
+                        // new object listening for keyboard events
+                        new KeyEventDispatcher() {
+                    @Override
+                    public boolean dispatchKeyEvent(KeyEvent e) {
+
+                        if (e.getID() == KeyEvent.KEY_RELEASED) {
+                            System.out.println("Got key = " + e.getKeyCode());
+                            boolean needRepaint = handleKeyPress(e.getKeyCode());
+                            if (needRepaint) {
+                                e.getComponent().repaint();
+                            }
+                            return needRepaint;
+                        }
+                        return false;
+                    }
+                }
+                );
+    }
+
+    public boolean handleKeyPress(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.VK_LEFT:
+                moveLeft();
+                System.out.println("LEFT");
+                return true;
+            case KeyEvent.VK_UP:
+                System.out.println("UP");
+                break;
+            case KeyEvent.VK_RIGHT:
+                System.out.println("RIGHT");
+                break;
+            case KeyEvent.VK_DOWN:
+                System.out.println("DOWN");
+                break;
+            case KeyEvent.VK_Q:
+                System.exit(0);
+//            case KeyEvent.VK_R:
+//                System.exit(1);
+            default:
+        }
+        return false;
+
+    }
+
+    public void moveLeft() {
+//        boolean moved = false;
+        if (((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() != null)
+                && (arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable().getElementType() == BOX))
+                && ((arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() == FLOOR)
+                || ((arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() == SOCKET)
+                && (arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() != WALL)))) {
+            //  box movement
+            arrayOfMapElements[playerPositionX - 2][playerPositionY].setMovable(
+                    arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable());
+            arrayOfMapElements[playerPositionX - 1][playerPositionY].setMovable(
+                    arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+            //  player movement
+            arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+            playerPositionX--;
+//            moved = true;
+            System.out.println("If 1  moved");
+        } else {
+            if ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == FLOOR)
+                    || (arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == SOCKET)) {
+                //  player movement
+                arrayOfMapElements[playerPositionX - 1][playerPositionY].setMovable(
+                        arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+                arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+                System.out.println("If 2  moved");
+                playerPositionX--;
+            }
+        }
+    }
 }
+
+//    public void moveLeft() {
+//        boolean moved = false;
+//        if (((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() != null)
+//                && (arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable().getElementType() == BOX))
+//                && ((arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() == FLOOR)
+//                || ((arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() == SOCKET)
+//                && (arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() != WALL)))) {
+//            //  box movement
+//            arrayOfMapElements[playerPositionX - 2][playerPositionY].setMovable(
+//                    arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable());
+//            arrayOfMapElements[playerPositionX - 1][playerPositionY].setMovable(
+//                    arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+//            //  player movement
+//            arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+//            playerPositionX--;
+//            moved = true;
+//            System.out.println("If 1  moved");
+//        }
+//
+//        if (!moved
+//                && ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() != null)
+//                && ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == FLOOR)
+//                || (arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == SOCKET)))) {
+//            //  player movement
+//            arrayOfMapElements[playerPositionX - 1][playerPositionY].setMovable(
+//                    arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+//            arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+//            System.out.println("If 2  moved");
+//            playerPositionX--;
+//        }
+//    }
+
 
 //warehouseKeeper: MapElement
 //LoadMap()
