@@ -126,14 +126,17 @@ public class Level {
                 System.out.println("LEFT");
                 return true;
             case KeyEvent.VK_UP:
+                moveUp();
                 System.out.println("UP");
-                break;
+                return true;
             case KeyEvent.VK_RIGHT:
+                moveRight();
                 System.out.println("RIGHT");
-                break;
+                return true;
             case KeyEvent.VK_DOWN:
+                moveDown();
                 System.out.println("DOWN");
-                break;
+                return true;
             case KeyEvent.VK_Q:
                 System.exit(0);
 //            case KeyEvent.VK_R:
@@ -144,9 +147,106 @@ public class Level {
 
     }
 
+    public void moveUp() {
+//        boolean moved = false;
+        if (((arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable() != null)
+                && (arrayOfMapElements[playerPositionX][playerPositionY - 2].getMovable() == null)
+                && (arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable().getElementType() == BOX))
+                && ((arrayOfMapElements[playerPositionX][playerPositionY - 2].getElementType() == FLOOR)
+                || ((arrayOfMapElements[playerPositionX][playerPositionY - 2].getElementType() == SOCKET)
+                && (arrayOfMapElements[playerPositionX][playerPositionY - 2].getElementType() != WALL)))) {
+            //  box movement
+            arrayOfMapElements[playerPositionX][playerPositionY - 2].setMovable(
+                    arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable());
+            arrayOfMapElements[playerPositionX][playerPositionY - 1].setMovable(
+                    arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+            //  player movement
+            arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+            playerPositionY--;
+//            moved = true;
+            System.out.println("If 1  moved");
+        } else {
+            if ((arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable() == null)
+                    && ((arrayOfMapElements[playerPositionX][playerPositionY - 1].getElementType() == FLOOR)
+                    || (arrayOfMapElements[playerPositionX][playerPositionY - 1].getElementType() == SOCKET))) {
+                //  player movement
+                arrayOfMapElements[playerPositionX][playerPositionY - 1].setMovable(
+                        arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+                arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+                System.out.println("If 2  moved");
+                playerPositionY--;
+            }
+        }
+    }
+
+    public void moveDown() {
+//        boolean moved = false;
+        if (((arrayOfMapElements[playerPositionX][playerPositionY + 1].getMovable() != null)
+                && (arrayOfMapElements[playerPositionX][playerPositionY + 2].getMovable() == null)
+                && (arrayOfMapElements[playerPositionX][playerPositionY + 1].getMovable().getElementType() == BOX))
+                && ((arrayOfMapElements[playerPositionX][playerPositionY + 2].getElementType() == FLOOR)
+                || ((arrayOfMapElements[playerPositionX][playerPositionY + 2].getElementType() == SOCKET)
+                && (arrayOfMapElements[playerPositionX][playerPositionY + 2].getElementType() != WALL)))) {
+            //  box movement
+            arrayOfMapElements[playerPositionX][playerPositionY + 2].setMovable(
+                    arrayOfMapElements[playerPositionX][playerPositionY + 1].getMovable());
+            arrayOfMapElements[playerPositionX][playerPositionY + 1].setMovable(
+                    arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+            //  player movement
+            arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+            playerPositionY++;
+//            moved = true;
+            System.out.println("If 1  moved");
+        } else {
+            if ((arrayOfMapElements[playerPositionX][playerPositionY + 1].getMovable() == null)
+                    && ((arrayOfMapElements[playerPositionX][playerPositionY + 1].getElementType() == FLOOR)
+                    || (arrayOfMapElements[playerPositionX][playerPositionY + 1].getElementType() == SOCKET))) {
+                //  player movement
+                arrayOfMapElements[playerPositionX][playerPositionY + 1].setMovable(
+                        arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+                arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+                System.out.println("If 2  moved");
+                playerPositionY++;
+            }
+        }
+    }
+
+    public void moveRight() {
+//        boolean moved = false;
+        if (((arrayOfMapElements[playerPositionX + 1][playerPositionY].getMovable() != null)
+                && (arrayOfMapElements[playerPositionX + 2][playerPositionY].getMovable() == null)
+                && (arrayOfMapElements[playerPositionX + 1][playerPositionY].getMovable().getElementType() == BOX))
+                && ((arrayOfMapElements[playerPositionX + 2][playerPositionY].getElementType() == FLOOR)
+                || ((arrayOfMapElements[playerPositionX + 2][playerPositionY].getElementType() == SOCKET)
+                && (arrayOfMapElements[playerPositionX + 2][playerPositionY].getElementType() != WALL)))) {
+            //  box movement
+            arrayOfMapElements[playerPositionX + 2][playerPositionY].setMovable(
+                    arrayOfMapElements[playerPositionX + 1][playerPositionY].getMovable());
+            arrayOfMapElements[playerPositionX + 1][playerPositionY].setMovable(
+                    arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+            //  player movement
+            arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+            playerPositionX++;
+//            moved = true;
+            System.out.println("If 1  moved");
+        } else {
+            if ((arrayOfMapElements[playerPositionX + 1][playerPositionY].getMovable() == null)
+                    && ((arrayOfMapElements[playerPositionX + 1][playerPositionY].getElementType() == FLOOR)
+                    || (arrayOfMapElements[playerPositionX + 1][playerPositionY].getElementType() == SOCKET))) {
+                //  player movement
+                arrayOfMapElements[playerPositionX + 1][playerPositionY].setMovable(
+                        arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
+                arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
+                System.out.println("If 2  moved");
+                playerPositionX++;
+            }
+        }
+    }
+
     public void moveLeft() {
 //        boolean moved = false;
         if (((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() != null)
+                && (arrayOfMapElements[playerPositionX - 2][playerPositionY].getMovable() == null)
                 && (arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable().getElementType() == BOX))
                 && ((arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() == FLOOR)
                 || ((arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() == SOCKET)
@@ -162,8 +262,9 @@ public class Level {
 //            moved = true;
             System.out.println("If 1  moved");
         } else {
-            if ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == FLOOR)
-                    || (arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == SOCKET)) {
+            if ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() == null)
+                    && ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == FLOOR)
+                    || (arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == SOCKET))) {
                 //  player movement
                 arrayOfMapElements[playerPositionX - 1][playerPositionY].setMovable(
                         arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
@@ -206,8 +307,7 @@ public class Level {
 //            playerPositionX--;
 //        }
 //    }
-
-
+// }
 //warehouseKeeper: MapElement
 //LoadMap()
 //checkForWin()
