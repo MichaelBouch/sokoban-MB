@@ -1,12 +1,15 @@
 package com.mb;
 
+import static com.mb.MapElement.BOX;
 import static com.mb.MapElement.EMPTY;
-import static com.mb.MapElement.HEIGHT;
+import static com.mb.MapElement.FLOOR;
 import static com.mb.MapElement.PLAYER;
 import static com.mb.MapElement.SOCKET;
 import static com.mb.MapElement.WALL;
-import static com.mb.MapElement.WIDTH;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import static java.lang.Double.min;
 
 public class PaintLevel {
 
@@ -15,6 +18,9 @@ public class PaintLevel {
     int screenHeight;
     int xStart;
     int yStart;
+    int xRatioOffset = 0;
+    int yRatioOffset = 0;
+    int adaptiveTileSizeX, adaptiveTileSizeY;
 
     public PaintLevel(Level levelToPaint, int screenWidth, int screenHeight, int xStart, int yStart) {
         this.levelToPaint = levelToPaint;
@@ -22,46 +28,65 @@ public class PaintLevel {
         this.screenHeight = screenHeight;
         this.xStart = xStart;
         this.yStart = yStart;
-    }
-
-//            for (int i = 0; i < x; i++) {
-//            for (int j = 0; j < y; j++) {
-//                levelToPaint[j][i] = new MapElement(WALL);
-//            }
-//    public PaintLevel(Level levelToPaint) {
-//        this.levelToPaint = levelToPaint;
-//    }
-    void paintLevel(Graphics graphics) {
-        
         //  class attribute arrayOfMapElements get levelToPaint object
         MapElement[][] arrayOfMapElements = levelToPaint.getArrayOfMapElements();
-        //  x.lenght = number of columns   
+        adaptiveTileSizeX = (int) (screenWidth / arrayOfMapElements.length);
+        adaptiveTileSizeY = (int) ((screenHeight -80 )/ arrayOfMapElements[0].length);
+        adaptiveTileSizeX = (int) min(adaptiveTileSizeX, adaptiveTileSizeY);
+        xRatioOffset = (int) (screenWidth - (arrayOfMapElements.length * adaptiveTileSizeX)) / 2;
+        yRatioOffset = (int) 30 + (screenHeight - (arrayOfMapElements[0].length * adaptiveTileSizeX)) / 2;
+        System.out.println(" xOffset: " + xRatioOffset + " yOffset: " + yRatioOffset + "  adaptiveTileSizeX: "
+                + adaptiveTileSizeX + "   adaptiveTileSizeY:" + adaptiveTileSizeY);
+
+    }
+
+    void paintLevel(Graphics graphics) {
+        //   setFont(new Font("Arial", Font.PLAIN, 14));
+        graphics.drawString("This is going to be game", 10, 10);
+
+        MapElement[][] arrayOfMapElements = levelToPaint.getArrayOfMapElements();
+
         for (int i = 0; i < arrayOfMapElements.length; i++) {
             MapElement[] arrayOfMapElement = arrayOfMapElements[i];
             for (int j = 0; j < arrayOfMapElement.length; j++) {
-                
-                MapElement mapElement = arrayOfMapElement[j];
+
+                switch (arrayOfMapElement[j].getElementType()) {
+                    case FLOOR:
+                        break;
+                    case WALL:
+                        graphics.drawRect(i * adaptiveTileSizeX + xRatioOffset,
+                                j * adaptiveTileSizeX + yRatioOffset,
+                                adaptiveTileSizeX, adaptiveTileSizeX);
+                        break;
+                    case SOCKET:
+                        graphics.drawOval(i * adaptiveTileSizeX + xRatioOffset + adaptiveTileSizeX / 4,
+                                j * adaptiveTileSizeX + yRatioOffset + adaptiveTileSizeX / 4,
+                                adaptiveTileSizeX / 2, adaptiveTileSizeX / 2);
+                        break;
+                    case EMPTY:
+                        break;
+                    default:
+                }
+
+                if (arrayOfMapElement[j].getMovable() != null) {
+                    switch (arrayOfMapElement[j].getMovable().getElementType()) {
+                        case PLAYER:
+                            graphics.drawRect(i * adaptiveTileSizeX + xRatioOffset + adaptiveTileSizeX / 4,
+                                    j * adaptiveTileSizeX + yRatioOffset + adaptiveTileSizeX / 4,
+                                    adaptiveTileSizeX / 2, adaptiveTileSizeX / 2);
+                            break;
+                        case BOX:
+                            graphics.drawOval(i * adaptiveTileSizeX + xRatioOffset,
+                                    j * adaptiveTileSizeX + yRatioOffset,
+                                    adaptiveTileSizeX, adaptiveTileSizeX);
+                            break;
+
+                    }
+
+                }
             }
         }
-    }
-
-    void paintLevel_OLD(Graphics graphics) {
-
-        for (MapElement[] mapElements : levelToPaint.getArrayOfMapElements()) {
-            for (MapElement mapElement : mapElements) {
-                // mapElement.paint(graphics);
-                if (mapElement.getElementType() == EMPTY) {
-                    drawEmpty();
-                }
-                if (mapElement.getElementType() == WALL) {
-                    drawWall();
-                }
-                if (mapElement.getElementType() == PLAYER) {
-                    drawPlayer();
-                }
-
-            }
-        }
+        graphics.drawString("This is going to be game", 10, 10);
     }
 
     private void drawEmpty() {
@@ -75,22 +100,4 @@ public class PaintLevel {
     private void drawPlayer() {
 
     }
-
-//
-//    void paint(Graphics graphics) {
-//        if (elementType == EMPTY) {
-//            graphics.setColor(java.awt.Color.WHITE);
-//        }
-//        if (elementType == WALL) {
-//            graphics.setColor(java.awt.Color.BLACK);
-//        }
-//        if (elementType == PLAYER) {
-//            graphics.setColor(java.awt.Color.BLACK);
-//        }
-//        if (elementType == SOCKET) {
-//            graphics.setColor(java.awt.Color.BLACK);
-//        }
-//
-//        graphics.drawRect(x, y, WIDTH, HEIGHT);
-//    }
 }

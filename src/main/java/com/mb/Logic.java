@@ -9,6 +9,17 @@ package com.mb;
  *
  * @author user
  */
-public class Level {
+public class Logic {
+    
+    int movesCounter = 0;
+
+    public int getMovesCounter() {
+        return movesCounter;
+    }
+
+    public void setMovesCounter(int movesCounter) {
+        this.movesCounter = movesCounter;
+    }
+    
     
 }
