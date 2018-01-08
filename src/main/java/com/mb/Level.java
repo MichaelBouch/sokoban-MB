@@ -6,6 +6,7 @@ import static com.mb.MapElement.SOCKET;
 import static com.mb.MapElement.EMPTY;
 import static com.mb.MapElement.PLAYER;
 import static com.mb.MapElement.FLOOR;
+import static com.mb.sokoban_mb.main;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
@@ -29,6 +30,7 @@ public class Level {
     int levelHeight = 0;
     int playerPositionX;
     int playerPositionY;
+    int movesCounter = 0;
     //  deklaracja tablicy obiektow MapElement
     MapElement[][] arrayOfMapElements;
     MapElement[][] arrayOfMovableElements;
@@ -65,22 +67,22 @@ public class Level {
 
             for (int nCharacter = 0; nCharacter < levelWidth; nCharacter++) {
                 switch (tempString.charAt(nCharacter)) {
-                    case '#':
+                    case 'X':
                         tempLevel[nCharacter][nLine] = new MapElement(WALL);
                         break;
-                    case '-':
+                    case ' ':
                         tempLevel[nCharacter][nLine] = new MapElement(FLOOR);
                         break;
-                    case '+':
+                    case '.':
                         tempLevel[nCharacter][nLine] = new MapElement(SOCKET);
                         break;
-                    case 'P':
+                    case '@':
                         tempLevel[nCharacter][nLine] = new MapElement(FLOOR);
                         tempLevel[nCharacter][nLine].setMovable(new MapElement(PLAYER));
                         playerPositionX = nCharacter;
                         playerPositionY = nLine;
                         break;
-                    case 'B':
+                    case '*':
                         tempLevel[nCharacter][nLine] = new MapElement(FLOOR);
                         tempLevel[nCharacter][nLine].setMovable(new MapElement(BOX));
                         break;
@@ -139,12 +141,14 @@ public class Level {
                 return true;
             case KeyEvent.VK_Q:
                 System.exit(0);
+            //           case KeyEvent.VK_R:
+            //             restart = new sokoban_mb().launch();
+
 //            case KeyEvent.VK_R:
 //                System.exit(1);
             default:
         }
         return false;
-
     }
 
     public void moveUp() {
@@ -164,6 +168,7 @@ public class Level {
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionY--;
 //            moved = true;
+            movesCounter++;
             System.out.println("If 1  moved");
         } else {
             if ((arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable() == null)
@@ -175,6 +180,7 @@ public class Level {
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
                 System.out.println("If 2  moved");
                 playerPositionY--;
+                movesCounter++;
             }
         }
     }
@@ -196,6 +202,7 @@ public class Level {
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionY++;
 //            moved = true;
+            movesCounter++;
             System.out.println("If 1  moved");
         } else {
             if ((arrayOfMapElements[playerPositionX][playerPositionY + 1].getMovable() == null)
@@ -207,6 +214,7 @@ public class Level {
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
                 System.out.println("If 2  moved");
                 playerPositionY++;
+                movesCounter++;
             }
         }
     }
@@ -227,6 +235,7 @@ public class Level {
             //  player movement
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionX++;
+            movesCounter++;
 //            moved = true;
             System.out.println("If 1  moved");
         } else {
@@ -239,6 +248,7 @@ public class Level {
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
                 System.out.println("If 2  moved");
                 playerPositionX++;
+                movesCounter++;
             }
         }
     }
@@ -260,6 +270,7 @@ public class Level {
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionX--;
 //            moved = true;
+            movesCounter++;
             System.out.println("If 1  moved");
         } else {
             if ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() == null)
@@ -271,43 +282,12 @@ public class Level {
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
                 System.out.println("If 2  moved");
                 playerPositionX--;
+                movesCounter++;
             }
         }
     }
 }
 
-//    public void moveLeft() {
-//        boolean moved = false;
-//        if (((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() != null)
-//                && (arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable().getElementType() == BOX))
-//                && ((arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() == FLOOR)
-//                || ((arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() == SOCKET)
-//                && (arrayOfMapElements[playerPositionX - 2][playerPositionY].getElementType() != WALL)))) {
-//            //  box movement
-//            arrayOfMapElements[playerPositionX - 2][playerPositionY].setMovable(
-//                    arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable());
-//            arrayOfMapElements[playerPositionX - 1][playerPositionY].setMovable(
-//                    arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
-//            //  player movement
-//            arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
-//            playerPositionX--;
-//            moved = true;
-//            System.out.println("If 1  moved");
-//        }
-//
-//        if (!moved
-//                && ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() != null)
-//                && ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == FLOOR)
-//                || (arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == SOCKET)))) {
-//            //  player movement
-//            arrayOfMapElements[playerPositionX - 1][playerPositionY].setMovable(
-//                    arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
-//            arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
-//            System.out.println("If 2  moved");
-//            playerPositionX--;
-//        }
-//    }
-// }
 //warehouseKeeper: MapElement
 //LoadMap()
 //checkForWin()
