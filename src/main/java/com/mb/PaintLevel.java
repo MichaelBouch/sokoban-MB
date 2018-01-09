@@ -6,10 +6,13 @@ import static com.mb.MapElement.FLOOR;
 import static com.mb.MapElement.PLAYER;
 import static com.mb.MapElement.SOCKET;
 import static com.mb.MapElement.WALL;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import static java.lang.Double.min;
+import javax.imageio.ImageIO;
 
 public class PaintLevel {
 
@@ -31,37 +34,58 @@ public class PaintLevel {
         //  class attribute arrayOfMapElements get levelToPaint object
         MapElement[][] arrayOfMapElements = levelToPaint.getArrayOfMapElements();
         adaptiveTileSizeX = (int) (screenWidth / arrayOfMapElements.length);
-        adaptiveTileSizeY = (int) ((screenHeight -80 )/ arrayOfMapElements[0].length);
+        adaptiveTileSizeY = (int) ((screenHeight - 80) / arrayOfMapElements[0].length);
         adaptiveTileSizeX = (int) min(adaptiveTileSizeX, adaptiveTileSizeY);
         xRatioOffset = (int) (screenWidth - (arrayOfMapElements.length * adaptiveTileSizeX)) / 2;
         yRatioOffset = (int) 30 + (screenHeight - (arrayOfMapElements[0].length * adaptiveTileSizeX)) / 2;
         System.out.println(" xOffset: " + xRatioOffset + " yOffset: " + yRatioOffset + "  adaptiveTileSizeX: "
                 + adaptiveTileSizeX + "   adaptiveTileSizeY:" + adaptiveTileSizeY);
-
     }
 
     void paintLevel(Graphics graphics) {
-        //   setFont(new Font("Arial", Font.PLAIN, 14));
-        graphics.drawString("This is going to be game", 10, 10);
 
+        BufferedImage textureWall = null;
+        BufferedImage textureBox = null;
+        BufferedImage texturePlayer = null;
+        BufferedImage textureFloor = null;
+        BufferedImage textureSocket = null;
+
+        try {
+            textureWall = ImageIO.read(getClass().getResource("/wall_stone.png"));
+            textureBox = ImageIO.read(getClass().getResource("/box1.png"));
+            texturePlayer = ImageIO.read(getClass().getResource("/player3.png"));
+            textureFloor = ImageIO.read(getClass().getResource("/floor1.png"));
+            textureSocket = ImageIO.read(getClass().getResource("/floor1_socket.png"));
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        graphics.drawString("Moves: 20", 40, 45);
         MapElement[][] arrayOfMapElements = levelToPaint.getArrayOfMapElements();
-
+        graphics.drawImage(textureFloor, 0, 0, screenWidth, screenHeight, null);
+        
         for (int i = 0; i < arrayOfMapElements.length; i++) {
             MapElement[] arrayOfMapElement = arrayOfMapElements[i];
             for (int j = 0; j < arrayOfMapElement.length; j++) {
 
                 switch (arrayOfMapElement[j].getElementType()) {
                     case FLOOR:
+                        graphics.drawImage(textureFloor,
+                                i * adaptiveTileSizeX + xRatioOffset,
+                                j * adaptiveTileSizeX + yRatioOffset,
+                                adaptiveTileSizeX, adaptiveTileSizeX, null);
                         break;
                     case WALL:
-                        graphics.drawRect(i * adaptiveTileSizeX + xRatioOffset,
+                        graphics.drawImage(textureWall,
+                                i * adaptiveTileSizeX + xRatioOffset,
                                 j * adaptiveTileSizeX + yRatioOffset,
-                                adaptiveTileSizeX, adaptiveTileSizeX);
+                                adaptiveTileSizeX, adaptiveTileSizeX, null);
                         break;
                     case SOCKET:
-                        graphics.drawOval(i * adaptiveTileSizeX + xRatioOffset + adaptiveTileSizeX / 4,
-                                j * adaptiveTileSizeX + yRatioOffset + adaptiveTileSizeX / 4,
-                                adaptiveTileSizeX / 2, adaptiveTileSizeX / 2);
+                        graphics.drawImage(textureSocket,
+                                i * adaptiveTileSizeX + xRatioOffset,
+                                j * adaptiveTileSizeX + yRatioOffset,
+                                adaptiveTileSizeX, adaptiveTileSizeX, null);
                         break;
                     case EMPTY:
                         break;
@@ -71,22 +95,20 @@ public class PaintLevel {
                 if (arrayOfMapElement[j].getMovable() != null) {
                     switch (arrayOfMapElement[j].getMovable().getElementType()) {
                         case PLAYER:
-                            graphics.drawRect(i * adaptiveTileSizeX + xRatioOffset + adaptiveTileSizeX / 4,
-                                    j * adaptiveTileSizeX + yRatioOffset + adaptiveTileSizeX / 4,
-                                    adaptiveTileSizeX / 2, adaptiveTileSizeX / 2);
+                            graphics.drawImage(texturePlayer,
+                                    i * adaptiveTileSizeX + xRatioOffset, j * adaptiveTileSizeX + yRatioOffset,
+                                    adaptiveTileSizeX, adaptiveTileSizeX, null);
                             break;
                         case BOX:
-                            graphics.drawOval(i * adaptiveTileSizeX + xRatioOffset,
-                                    j * adaptiveTileSizeX + yRatioOffset,
-                                    adaptiveTileSizeX, adaptiveTileSizeX);
+                            graphics.drawImage(textureBox,
+                                    i * adaptiveTileSizeX + xRatioOffset, j * adaptiveTileSizeX + yRatioOffset,
+                                    adaptiveTileSizeX, adaptiveTileSizeX, null);
                             break;
-
                     }
-
                 }
             }
         }
-        graphics.drawString("This is going to be game", 10, 10);
+
     }
 
     private void drawEmpty() {
@@ -100,4 +122,5 @@ public class PaintLevel {
     private void drawPlayer() {
 
     }
+
 }
