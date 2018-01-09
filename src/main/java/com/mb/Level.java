@@ -10,8 +10,12 @@ import static com.mb.sokoban_mb.main;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.imageio.ImageIO;
 
 public class Level {
 
@@ -31,14 +35,14 @@ public class Level {
     int playerPositionX;
     int playerPositionY;
     int movesCounter = 0;
-    //  deklaracja tablicy obiektow MapElement
-    MapElement[][] arrayOfMapElements;
-    MapElement[][] arrayOfMovableElements;
-    //  deklaracja tablicy stringow
     String[] loadedFile;
     ArrayList<String> lines;
-    Level tempLevel;
+    MapElement[][] arrayOfMapElements;
+   // Logic logic;
 
+    //  deklaracja tablicy obiektow MapElement
+    //   MapElement[][] arrayOfMovableElements;
+    //  deklaracja tablicy stringow
     public MapElement[][] getArrayOfMapElements() {
         return arrayOfMapElements;
     }
@@ -52,7 +56,7 @@ public class Level {
 
         ArrayList<String> lines = new ArrayList<String>();
         Scanner sc = new Scanner(Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt"));
-//            Scanner sc = new Scanner(new File("C://Svn//trunk//soko//src//main//resources//level" + levelNumberToLoad + ".txt"));
+//        Scanner sc = new Scanner(new File("C://Svn//trunk//soko//src//main//resources//level" + levelNumberToLoad + ".txt"));
         while (sc.hasNextLine()) {
             lines.add(sc.nextLine());
         }
@@ -99,6 +103,7 @@ public class Level {
     }
 
     public void startKeyboardHandl() {
+
         KeyboardFocusManager.
                 getCurrentKeyboardFocusManager().
                 addKeyEventDispatcher(
@@ -108,7 +113,7 @@ public class Level {
                     public boolean dispatchKeyEvent(KeyEvent e) {
 
                         if (e.getID() == KeyEvent.KEY_RELEASED) {
-                            System.out.println("Got key = " + e.getKeyCode());
+                            //   System.out.println("Got key = " + e.getKeyCode());
                             boolean needRepaint = handleKeyPress(e.getKeyCode());
                             if (needRepaint) {
                                 e.getComponent().repaint();
@@ -125,19 +130,19 @@ public class Level {
         switch (keyCode) {
             case KeyEvent.VK_LEFT:
                 moveLeft();
-                System.out.println("LEFT");
+                // System.out.println("LEFT");
                 return true;
             case KeyEvent.VK_UP:
                 moveUp();
-                System.out.println("UP");
+                //    System.out.println("UP");
                 return true;
             case KeyEvent.VK_RIGHT:
                 moveRight();
-                System.out.println("RIGHT");
+                //     System.out.println("RIGHT");
                 return true;
             case KeyEvent.VK_DOWN:
                 moveDown();
-                System.out.println("DOWN");
+                //     System.out.println("DOWN");
                 return true;
             case KeyEvent.VK_Q:
                 System.exit(0);
@@ -152,7 +157,7 @@ public class Level {
     }
 
     public void moveUp() {
-//        boolean moved = false;
+        //  If 1  moved
         if (((arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable() != null)
                 && (arrayOfMapElements[playerPositionX][playerPositionY - 2].getMovable() == null)
                 && (arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable().getElementType() == BOX))
@@ -167,10 +172,9 @@ public class Level {
             //  player movement
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionY--;
-//            moved = true;
-            movesCounter++;
-            System.out.println("If 1  moved");
+            //  logic.addMove();
         } else {
+            //  If 2  moved
             if ((arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable() == null)
                     && ((arrayOfMapElements[playerPositionX][playerPositionY - 1].getElementType() == FLOOR)
                     || (arrayOfMapElements[playerPositionX][playerPositionY - 1].getElementType() == SOCKET))) {
@@ -178,9 +182,8 @@ public class Level {
                 arrayOfMapElements[playerPositionX][playerPositionY - 1].setMovable(
                         arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
-                System.out.println("If 2  moved");
                 playerPositionY--;
-                movesCounter++;
+                //          logic.addMove();
             }
         }
     }
@@ -202,8 +205,7 @@ public class Level {
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionY++;
 //            moved = true;
-            movesCounter++;
-            System.out.println("If 1  moved");
+            //      logic.addMove();
         } else {
             if ((arrayOfMapElements[playerPositionX][playerPositionY + 1].getMovable() == null)
                     && ((arrayOfMapElements[playerPositionX][playerPositionY + 1].getElementType() == FLOOR)
@@ -212,9 +214,8 @@ public class Level {
                 arrayOfMapElements[playerPositionX][playerPositionY + 1].setMovable(
                         arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
-                System.out.println("If 2  moved");
                 playerPositionY++;
-                movesCounter++;
+                //         logic.addMove();
             }
         }
     }
@@ -235,9 +236,7 @@ public class Level {
             //  player movement
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionX++;
-            movesCounter++;
-//            moved = true;
-            System.out.println("If 1  moved");
+            //       logic.addMove();
         } else {
             if ((arrayOfMapElements[playerPositionX + 1][playerPositionY].getMovable() == null)
                     && ((arrayOfMapElements[playerPositionX + 1][playerPositionY].getElementType() == FLOOR)
@@ -246,15 +245,14 @@ public class Level {
                 arrayOfMapElements[playerPositionX + 1][playerPositionY].setMovable(
                         arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
-                System.out.println("If 2  moved");
                 playerPositionX++;
-                movesCounter++;
+                //           logic.addMove();
             }
         }
     }
 
     public void moveLeft() {
-//        boolean moved = false;
+        //  If 1  moved
         if (((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() != null)
                 && (arrayOfMapElements[playerPositionX - 2][playerPositionY].getMovable() == null)
                 && (arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable().getElementType() == BOX))
@@ -269,10 +267,9 @@ public class Level {
             //  player movement
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionX--;
-//            moved = true;
-            movesCounter++;
-            System.out.println("If 1  moved");
+            //       logic.addMove();
         } else {
+            //  If 2  moved"
             if ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() == null)
                     && ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == FLOOR)
                     || (arrayOfMapElements[playerPositionX - 1][playerPositionY].getElementType() == SOCKET))) {
@@ -280,9 +277,8 @@ public class Level {
                 arrayOfMapElements[playerPositionX - 1][playerPositionY].setMovable(
                         arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
-                System.out.println("If 2  moved");
                 playerPositionX--;
-                movesCounter++;
+                //            logic.addMove();
             }
         }
     }
