@@ -9,46 +9,32 @@ import static com.mb.MapElement.WALL;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import static java.lang.Double.min;
 import javax.imageio.ImageIO;
 
 public class PaintLevel {
 
-    Level levelToPaint;
-    Graphics graphics;
-    int screenWidth;
-    int screenHeight;
-    int xStart;
-    int yStart;
-    int xRatioOffset = 0;
-    int yRatioOffset = 0;
-    int movesCounter = 0;
-    int adaptiveTileSizeX, adaptiveTileSizeY;
+    private Level levelToPaint;
+    private int screenWidth;
+    private int screenHeight;
+    private int xRatioOffset = 0;
+    private int yRatioOffset = 0;
+    private int movesCounter = 0;
+    private int adaptiveTileSizeX, adaptiveTileSizeY;
 
-    BufferedImage textureWall = null;
-    BufferedImage textureBox = null;
-    BufferedImage texturePlayer = null;
-    BufferedImage textureFloor = null;
-    BufferedImage textureSocket = null;
+    private BufferedImage textureWall;
+    private BufferedImage textureBox;
+    private BufferedImage texturePlayer;
+    private BufferedImage textureFloor;
+    private BufferedImage textureSocket;
+    private BufferedImage bf = new BufferedImage(1200, 850, BufferedImage.TYPE_INT_RGB);
 
-    public int getMovesCounter() {
-        return movesCounter;
-    }
-
-    public void setMovesCounter(int movesCounter) {
-        this.movesCounter = movesCounter;
-    }
-
-    public PaintLevel(Level levelToPaint, int screenWidth, int screenHeight, int xStart, int yStart) {
+    public PaintLevel(Level levelToPaint, int screenWidth, int screenHeight) {
         this.levelToPaint = levelToPaint;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.xStart = xStart;
-        this.yStart = yStart;
 
         //  class attribute arrayOfMapElements get levelToPaint object
         MapElement[][] arrayOfMapElements = levelToPaint.getArrayOfMapElements();
@@ -70,7 +56,10 @@ public class PaintLevel {
         }
     }
 
-    void paintLevel(Graphics graphics) {
+    void paintLevel(Graphics graphicsComp) {
+        // drawing on graphics object 
+        Graphics graphics = bf.getGraphics();
+
         graphics.setColor(Color.DARK_GRAY);
         graphics.fillRect(0, 0, screenWidth, screenHeight);
         graphics.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -123,6 +112,9 @@ public class PaintLevel {
                 }
             }
         }
+//                rysowanie.paintLevel(bf.getGraphics());
+        graphicsComp.drawImage(bf, 0, 0, null);
+
         System.out.println(movesCounter);
     }
 }

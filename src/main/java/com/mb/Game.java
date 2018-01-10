@@ -1,29 +1,32 @@
 package com.mb;
 
-import static com.mb.MapElement.BOX;
-import static com.mb.MapElement.FLOOR;
-import static com.mb.MapElement.SOCKET;
-import static com.mb.MapElement.WALL;
+import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 public class Game {
 
-    int movesCounter = 0;
-    int currentLevel = 1;
-    Level level;
-    boolean moved;
+    private int movesCounter = 0;
+    private int currentLevel = 1;
+    private Level level;
+    private PaintLevel rysowanie;
 
-    public Game(Level level) {
+    public Game() {
     }
 
-    public Level getLevel() {
-        return level;
+    public void drawLevel(Graphics graphics) {
+        rysowanie.paintLevel(graphics);
+//        rysowanie.paintLevel(bf.getGraphics());
+//        graphics.drawImage(bf, 0, 0, null);
     }
 
-    public void setLevel(Level level) {
-        this.level = level;
+    public void loadLevel(int levelNumber) {
+        currentLevel = levelNumber;
+        level = new Level();
+        level.createLevelFromFile(currentLevel);
+        rysowanie = new PaintLevel(level, 1200, 850);
     }
 
     public void startKeyboardHandl() {
@@ -39,7 +42,11 @@ public class Game {
                             //   System.out.println("Got key = " + e.getKeyCode());
                             boolean needRepaint = handleKeyPress(e.getKeyCode());
                             if (needRepaint) {
+                                if (level.isLevelFinished()) {
+                                    loadLevel(currentLevel + 1);
+                                }
                                 e.getComponent().repaint();
+
                             }
                             return needRepaint;
                         }
@@ -79,23 +86,8 @@ public class Game {
 //                System.exit(1);
             default:
         }
+        System.out.println(movesCounter);
         return false;
-    }
-
-    public int getMovesCounter() {
-        return movesCounter;
-    }
-
-    public void setMovesCounter(int movesCounter) {
-        this.movesCounter = movesCounter;
-    }
-
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
-
-    public void setCurrentLevel(int currentLevel) {
-        this.currentLevel = currentLevel;
     }
 
 }

@@ -22,16 +22,13 @@ public class Level {
      * utworzonego obiektu do metody zrobCos(new Level()); // wywolanie metody
      * // wywolanie metoddy z obiektem zadklarowany wczesniej zrobCos(lvl);
      */
-    int levelWidth = 0;
-    int levelHeight = 0;
-    int playerPositionX;
-    int playerPositionY;
-    int movesCounter = 0;
-    int NumberOfSockets = 0;
-    int NumberOfBoxes = 0;
-    String[] loadedFile;
-    ArrayList<String> lines;
-    MapElement[][] arrayOfMapElements;
+    private int levelWidth = 0;
+    private int levelHeight = 0;
+    private int playerPositionX;
+    private int playerPositionY;
+    private int movesCounter = 0;
+    private int numberOfSockets = 0;
+    private MapElement[][] arrayOfMapElements;
 
     //  deklaracja tablicy obiektow MapElement
     //   MapElement[][] arrayOfMovableElements;
@@ -70,7 +67,7 @@ public class Level {
                         break;
                     case '.':
                         tempLevel[nCharacter][nLine] = new MapElement(SOCKET);
-                        NumberOfSockets++;
+                        numberOfSockets++;
                         break;
                     case '@':
                         tempLevel[nCharacter][nLine] = new MapElement(FLOOR);
@@ -81,7 +78,6 @@ public class Level {
                     case '*':
                         tempLevel[nCharacter][nLine] = new MapElement(FLOOR);
                         tempLevel[nCharacter][nLine].setMovable(new MapElement(BOX));
-                        NumberOfBoxes++;
                         break;
                     case '_':
                         tempLevel[nCharacter][nLine] = new MapElement(EMPTY);
@@ -225,30 +221,22 @@ public class Level {
 
     public boolean isLevelFinished() {
         int NumberOfMaches = 0;
-        for (int i = 0; i < arrayOfMapElements.length; i++) {
-            MapElement[] arrayOfMapElement = arrayOfMapElements[i];
-            for (int j = 0; j < arrayOfMapElement.length; j++) {
-                if (arrayOfMapElement[j].getElementType() == SOCKET
-                        && arrayOfMapElement[j].getMovable() != null
-                        && arrayOfMapElement[j].getMovable().getElementType() == BOX) {
+        for (MapElement[] arrayElement : arrayOfMapElements) {
+            for (MapElement element : arrayElement) {
+                if (element.getElementType() == SOCKET
+                        && element.getMovable() != null
+                        && element.getMovable().getElementType() == BOX) {
                     NumberOfMaches++;
                     System.out.println(NumberOfMaches);
                 }
             }
         }
-        if (NumberOfSockets == NumberOfMaches) {
-            return true;
-        }
-        if (NumberOfBoxes > NumberOfSockets && NumberOfMaches == NumberOfSockets) {
-            return true;
-        }
-        if (NumberOfBoxes < NumberOfSockets && NumberOfBoxes == NumberOfMaches) {
+        if (numberOfSockets == NumberOfMaches) {
             return true;
         }
         return false;
     }
 }
-
 //warehouseKeeper: MapElement
 //LoadMap()
 //checkForWin()
