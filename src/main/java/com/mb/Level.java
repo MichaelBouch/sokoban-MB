@@ -6,16 +6,8 @@ import static com.mb.MapElement.SOCKET;
 import static com.mb.MapElement.EMPTY;
 import static com.mb.MapElement.PLAYER;
 import static com.mb.MapElement.FLOOR;
-import static com.mb.sokoban_mb.main;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import javax.imageio.ImageIO;
 
 public class Level {
 
@@ -35,10 +27,11 @@ public class Level {
     int playerPositionX;
     int playerPositionY;
     int movesCounter = 0;
+    int NumberOfSockets = 0;
+    int NumberOfBoxes = 0;
     String[] loadedFile;
     ArrayList<String> lines;
     MapElement[][] arrayOfMapElements;
-   // Logic logic;
 
     //  deklaracja tablicy obiektow MapElement
     //   MapElement[][] arrayOfMovableElements;
@@ -49,14 +42,12 @@ public class Level {
 
     public void createLevelFromFile(int levelNumberToLoad) {
 
-        if (Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt") == null) {
-            System.out.println(" Level No: " + levelNumberToLoad + " cannot be read from file");
-            return;
-        }
-
+//        if (Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt") == null) {
+//            System.out.println(" Level No: " + levelNumberToLoad + " cannot be read from file");
+//            return;
+//        }
         ArrayList<String> lines = new ArrayList<String>();
         Scanner sc = new Scanner(Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt"));
-//        Scanner sc = new Scanner(new File("C://Svn//trunk//soko//src//main//resources//level" + levelNumberToLoad + ".txt"));
         while (sc.hasNextLine()) {
             lines.add(sc.nextLine());
         }
@@ -79,6 +70,7 @@ public class Level {
                         break;
                     case '.':
                         tempLevel[nCharacter][nLine] = new MapElement(SOCKET);
+                        NumberOfSockets++;
                         break;
                     case '@':
                         tempLevel[nCharacter][nLine] = new MapElement(FLOOR);
@@ -89,6 +81,7 @@ public class Level {
                     case '*':
                         tempLevel[nCharacter][nLine] = new MapElement(FLOOR);
                         tempLevel[nCharacter][nLine].setMovable(new MapElement(BOX));
+                        NumberOfBoxes++;
                         break;
                     case '_':
                         tempLevel[nCharacter][nLine] = new MapElement(EMPTY);
@@ -102,61 +95,7 @@ public class Level {
         arrayOfMapElements = tempLevel;
     }
 
-    public void startKeyboardHandl() {
-
-        KeyboardFocusManager.
-                getCurrentKeyboardFocusManager().
-                addKeyEventDispatcher(
-                        // new object listening for keyboard events
-                        new KeyEventDispatcher() {
-                    @Override
-                    public boolean dispatchKeyEvent(KeyEvent e) {
-
-                        if (e.getID() == KeyEvent.KEY_RELEASED) {
-                            //   System.out.println("Got key = " + e.getKeyCode());
-                            boolean needRepaint = handleKeyPress(e.getKeyCode());
-                            if (needRepaint) {
-                                e.getComponent().repaint();
-                            }
-                            return needRepaint;
-                        }
-                        return false;
-                    }
-                }
-                );
-    }
-
-    public boolean handleKeyPress(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.VK_LEFT:
-                moveLeft();
-                // System.out.println("LEFT");
-                return true;
-            case KeyEvent.VK_UP:
-                moveUp();
-                //    System.out.println("UP");
-                return true;
-            case KeyEvent.VK_RIGHT:
-                moveRight();
-                //     System.out.println("RIGHT");
-                return true;
-            case KeyEvent.VK_DOWN:
-                moveDown();
-                //     System.out.println("DOWN");
-                return true;
-            case KeyEvent.VK_Q:
-                System.exit(0);
-            //           case KeyEvent.VK_R:
-            //             restart = new sokoban_mb().launch();
-
-//            case KeyEvent.VK_R:
-//                System.exit(1);
-            default:
-        }
-        return false;
-    }
-
-    public void moveUp() {
+    public boolean moveUp() {
         //  If 1  moved
         if (((arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable() != null)
                 && (arrayOfMapElements[playerPositionX][playerPositionY - 2].getMovable() == null)
@@ -172,7 +111,7 @@ public class Level {
             //  player movement
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionY--;
-            //  logic.addMove();
+            return true;
         } else {
             //  If 2  moved
             if ((arrayOfMapElements[playerPositionX][playerPositionY - 1].getMovable() == null)
@@ -183,13 +122,13 @@ public class Level {
                         arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
                 playerPositionY--;
-                //          logic.addMove();
+                return true;
             }
         }
+        return false;
     }
 
-    public void moveDown() {
-//        boolean moved = false;
+    public boolean moveDown() {
         if (((arrayOfMapElements[playerPositionX][playerPositionY + 1].getMovable() != null)
                 && (arrayOfMapElements[playerPositionX][playerPositionY + 2].getMovable() == null)
                 && (arrayOfMapElements[playerPositionX][playerPositionY + 1].getMovable().getElementType() == BOX))
@@ -204,8 +143,7 @@ public class Level {
             //  player movement
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionY++;
-//            moved = true;
-            //      logic.addMove();
+            return true;
         } else {
             if ((arrayOfMapElements[playerPositionX][playerPositionY + 1].getMovable() == null)
                     && ((arrayOfMapElements[playerPositionX][playerPositionY + 1].getElementType() == FLOOR)
@@ -215,13 +153,13 @@ public class Level {
                         arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
                 playerPositionY++;
-                //         logic.addMove();
+                return true;
             }
         }
+        return false;
     }
 
-    public void moveRight() {
-//        boolean moved = false;
+    public boolean moveRight() {
         if (((arrayOfMapElements[playerPositionX + 1][playerPositionY].getMovable() != null)
                 && (arrayOfMapElements[playerPositionX + 2][playerPositionY].getMovable() == null)
                 && (arrayOfMapElements[playerPositionX + 1][playerPositionY].getMovable().getElementType() == BOX))
@@ -236,7 +174,7 @@ public class Level {
             //  player movement
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionX++;
-            //       logic.addMove();
+            return true;
         } else {
             if ((arrayOfMapElements[playerPositionX + 1][playerPositionY].getMovable() == null)
                     && ((arrayOfMapElements[playerPositionX + 1][playerPositionY].getElementType() == FLOOR)
@@ -246,12 +184,13 @@ public class Level {
                         arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
                 playerPositionX++;
-                //           logic.addMove();
+                return true;
             }
         }
+        return false;
     }
 
-    public void moveLeft() {
+    public boolean moveLeft() {
         //  If 1  moved
         if (((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() != null)
                 && (arrayOfMapElements[playerPositionX - 2][playerPositionY].getMovable() == null)
@@ -267,7 +206,7 @@ public class Level {
             //  player movement
             arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
             playerPositionX--;
-            //       logic.addMove();
+            return true;
         } else {
             //  If 2  moved"
             if ((arrayOfMapElements[playerPositionX - 1][playerPositionY].getMovable() == null)
@@ -278,9 +217,35 @@ public class Level {
                         arrayOfMapElements[playerPositionX][playerPositionY].getMovable());
                 arrayOfMapElements[playerPositionX][playerPositionY].setMovable(null);
                 playerPositionX--;
-                //            logic.addMove();
+                return true;
             }
         }
+        return false;
+    }
+
+    public boolean isLevelFinished() {
+        int NumberOfMaches = 0;
+        for (int i = 0; i < arrayOfMapElements.length; i++) {
+            MapElement[] arrayOfMapElement = arrayOfMapElements[i];
+            for (int j = 0; j < arrayOfMapElement.length; j++) {
+                if (arrayOfMapElement[j].getElementType() == SOCKET
+                        && arrayOfMapElement[j].getMovable() != null
+                        && arrayOfMapElement[j].getMovable().getElementType() == BOX) {
+                    NumberOfMaches++;
+                    System.out.println(NumberOfMaches);
+                }
+            }
+        }
+        if (NumberOfSockets == NumberOfMaches) {
+            return true;
+        }
+        if (NumberOfBoxes > NumberOfSockets && NumberOfMaches == NumberOfSockets) {
+            return true;
+        }
+        if (NumberOfBoxes < NumberOfSockets && NumberOfBoxes == NumberOfMaches) {
+            return true;
+        }
+        return false;
     }
 }
 
