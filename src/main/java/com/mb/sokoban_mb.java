@@ -16,7 +16,9 @@ public class sokoban_mb extends JFrame {
 
     @Override
     public void paint(Graphics graphics) {
-        game.drawLevel(graphics);
+        if (game != null && game.isInitalized()) {
+            game.drawLevel(graphics);
+        }
     }
 
     //   is going to call full screen
@@ -24,7 +26,7 @@ public class sokoban_mb extends JFrame {
         setBounds(0, 0, 1200, 850);
         setVisible(true);
         game = new Game();
-        game.loadLevel(1);
+        game.loadLevel(1, 1200, 850);
         game.startKeyboardHandl();
         repaint();
     }
