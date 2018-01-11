@@ -7,23 +7,31 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+// Game class methods does:
+//  Load levels (calls nethod createLevelFromFile())
+//  paints level: drawLevel method
+//  reads keyboard keys pressed: startKeyboardHandl dispatchKeyEvent methods
 public class Game {
 
-    private int movesCounter;
-    private int currentLevel;
-    private Level level;
-    private PaintLevel rysowanie;
+    private int movesCounter; // stores number of moves in each level
+    private int currentLevel; // stores number of current level
+    private Level level;  // declaration of level object
+    private PaintLevel paintLevel; // declaration of paintLevel object
     private boolean initalized;
 
+    // Game class constructor
     public Game() {
         initalized = false;
     }
 
+    // drawing level including top indicators (calls paintLevel object)
     public void drawLevel(Graphics graphics) {
-        rysowanie.draw(graphics, movesCounter, currentLevel);
+        paintLevel.draw(graphics, movesCounter, currentLevel);
     }
 
     //  prevalidation 
+    //  overloading methods
+    //  loading level methods catching exception when a texture cannot be found
     public boolean loadLevel() {
         return loadLevel(1);
     }
@@ -31,24 +39,28 @@ public class Game {
     public boolean loadLevel(int levelNumber) {
         return loadLevel(levelNumber, 1200, 850);
     }
-    
+
     public boolean loadLevel(int levelNumber, int width, int height) {
         initalized = false;
         movesCounter = 0;
         currentLevel = levelNumber;
+        // creating object level
         level = new Level();
+        // loading map from txt file number - currentLevel
         level.createLevelFromFile(currentLevel);
-        rysowanie = new PaintLevel(level, width, height);
+        paintLevel = new PaintLevel(level, width, height);
+        // loading textures with possible exception when a texture does not exists
         try {
-            rysowanie.loadTextures(currentLevel);
+            paintLevel.loadTextures(currentLevel);
         } catch (IllegalArgumentException | IOException ex) {
             System.out.println("Cannot load All textures   " + ex);
             return false;
-        } 
+        }
         initalized = true;
         return true;
-    } 
+    }
 
+    // keyboard manager method
     public void startKeyboardHandl() {
         KeyboardFocusManager.
                 getCurrentKeyboardFocusManager().
@@ -77,9 +89,12 @@ public class Game {
                 );
     }
 
+    // keyboard event handling - different methods calls depending of keys pressed 
     public boolean handleKeyPress(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_LEFT:
+                // calls moveLeft() method of object level
+                // when methods returns true (player have moved) then movesCounter increased by 1
                 if (level.moveLeft()) {
                     movesCounter++;
                 }
@@ -100,17 +115,18 @@ public class Game {
                 }
                 return true;
             case KeyEvent.VK_Q:
+                // program exit
                 System.exit(0);
             case KeyEvent.VK_R:
+                // restart - reloading current level
                 loadLevel(currentLevel);
-
                 return true;
             default:
         }
-
         return false;
     }
 
+    // ???????????????????????
     public boolean isInitalized() {
         return initalized;
     }

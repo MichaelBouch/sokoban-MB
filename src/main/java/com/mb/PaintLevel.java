@@ -14,6 +14,8 @@ import java.io.IOException;
 import static java.lang.Double.min;
 import javax.imageio.ImageIO;
 
+// PaintLevel class main functions: calculate size of tiles,  
+// load textures, displays tiles and top menu
 public class PaintLevel {
 
     private Level levelToPaint;
@@ -30,6 +32,7 @@ public class PaintLevel {
     private BufferedImage textureSocket;
     private BufferedImage screenBuffer = new BufferedImage(1200, 850, BufferedImage.TYPE_INT_RGB);
 
+    // constructor receives 2D array levelToPaint object and screen sizes as parameters
     public PaintLevel(Level levelToPaint, int screenWidth, int screenHeight) {
         this.levelToPaint = levelToPaint;
         this.screenWidth = screenWidth;
@@ -37,16 +40,20 @@ public class PaintLevel {
 
         //  class attribute arrayOfMapElements get levelToPaint object
         Tile[][] arrayOfMapElements = levelToPaint.getTileMap();
+        // size of each tile calculated from screen size divided by number of rows / columns
         adaptiveTileSizeX = (int) (screenWidth / arrayOfMapElements.length);
         adaptiveTileSizeY = (int) ((screenHeight - 80) / arrayOfMapElements[0].length);
         adaptiveTileSizeX = (int) min(adaptiveTileSizeX, adaptiveTileSizeY);
+        // calculates offset to draw level in the center of the frame
         xRatioOffset = (int) (screenWidth - (arrayOfMapElements.length * adaptiveTileSizeX)) / 2;
         yRatioOffset = (int) 30 + (screenHeight - (arrayOfMapElements[0].length * adaptiveTileSizeX)) / 2;
-        System.out.println(" xOffset: " + xRatioOffset + " yOffset: " + yRatioOffset + "  adaptiveTileSizeX: "
-                + adaptiveTileSizeX + "   adaptiveTileSizeY:" + adaptiveTileSizeY);
+        // System.out.println(" xOffset: " + xRatioOffset + " yOffset: " + yRatioOffset + "  adaptiveTileSizeX: "
+        //       + adaptiveTileSizeX + "   adaptiveTileSizeY:" + adaptiveTileSizeY);
 
     }
 
+    // draw method draws on graphics object: top menu, and all tiles based on information 
+    //  from 2D array levelToPaint 
     void draw(Graphics graphicsComp, int counter, int currentLevel) {
         //  drawing on graphics object 
         //  drawing on screenBuffer 
@@ -56,15 +63,15 @@ public class PaintLevel {
         graphics.fillRect(0, 0, screenWidth, screenHeight);
         graphics.setFont(new Font("Arial", Font.BOLD, 25));
         graphics.setColor(Color.RED);
-        graphics.drawString("Level: " + currentLevel, (screenWidth / 5), 50);
+        graphics.drawString("Level: " + currentLevel +" /5", (screenWidth / 5), 50);
         graphics.setColor(Color.ORANGE);
         graphics.drawString("Moves: " + counter, 2 * (screenWidth / 5), 50);
         graphics.setColor(Color.lightGray);
         graphics.drawString("R - Restart", 3 * (screenWidth / 5), 50);
         graphics.drawString("Q - Quit", 4 * (screenWidth / 5), 50);
-
+        // declaring 2D array tileMap to get from levelToPaint object by getter getTileMap()
         Tile[][] tileMap = levelToPaint.getTileMap();
-
+        // looking through each element of 2D array and adding texture to graphics object depending on tile type
         for (int i = 0; i < tileMap.length; i++) {
             Tile[] tileRow = tileMap[i];
             for (int j = 0; j < tileRow.length; j++) {
@@ -83,7 +90,9 @@ public class PaintLevel {
                         break;
                     default:
                 }
-
+                //   when object of tileMap is Movable (Player or Box) 
+                //   then type of movable object is retrieved by getter getMovable() from tileRow object
+                //   depending of moveble Player or Box adequate texture is applied
                 if (tileRow[j].getMovable() != null) {
                     switch (tileRow[j].getMovable().getTileType()) {
                         case PLAYER:
@@ -105,7 +114,8 @@ public class PaintLevel {
         //  rewrite to window video memory (component)
         graphicsComp.drawImage(screenBuffer, 0, 0, null);
     }
-
+    
+    // method draws tiles - places a texture in certain position of graphics object
     private void tileDraw(Graphics graphics, BufferedImage texture, int i, int j) {
         graphics.drawImage(texture,
                 i * adaptiveTileSizeX + xRatioOffset,
@@ -113,7 +123,8 @@ public class PaintLevel {
                 adaptiveTileSizeX, adaptiveTileSizeX, null);
     }
 
-    //  prevali
+    //  method load textures  prevalidation  loadin     ?????????????????
+    //  if texture cannot be found - throws exception        ????????????????
     public void loadTextures(int currentLevel) throws IOException {
         if (currentLevel == 1) {
             textureWall = ImageIO.read(getClass().getResource("/wall_steel.png"));
