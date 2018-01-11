@@ -1,7 +1,6 @@
 package com.mb;
 
-//  class Tile defines type of tile and if tile is movable then 
-//  object from Tile class will be created inside Tile object
+//  class Tile defines type of tile 
 public class Tile {
 
     // variables available in whole program to define type of tiles
@@ -10,8 +9,8 @@ public class Tile {
     public static final int BOX = 2;
     public static final int PLAYER = 3;
     public static final int SOCKET = 4;
-    public static final int EMPTY = 5;
     private int tileType;
+    //  object Tile class will store movable element (PLAYER or BOX)
     private Tile movable;
 
     // Tile constructor

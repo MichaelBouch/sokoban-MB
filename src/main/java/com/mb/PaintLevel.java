@@ -1,7 +1,6 @@
 package com.mb;
 
 import static com.mb.Tile.BOX;
-import static com.mb.Tile.EMPTY;
 import static com.mb.Tile.FLOOR;
 import static com.mb.Tile.PLAYER;
 import static com.mb.Tile.SOCKET;
@@ -23,7 +22,7 @@ public class PaintLevel {
     private int screenHeight;
     private int xRatioOffset = 0;
     private int yRatioOffset = 0;
-    private int adaptiveTileSizeX, adaptiveTileSizeY;
+    private int tileSizeX, tileSizeY;
 
     private BufferedImage textureWall;
     private BufferedImage textureBox;
@@ -39,17 +38,14 @@ public class PaintLevel {
         this.screenHeight = screenHeight;
 
         //  class attribute arrayOfMapElements get levelToPaint object
-        Tile[][] arrayOfMapElements = levelToPaint.getTileMap();
+        Tile[][] tileMap = levelToPaint.getTileMap();
         // size of each tile calculated from screen size divided by number of rows / columns
-        adaptiveTileSizeX = (int) (screenWidth / arrayOfMapElements.length);
-        adaptiveTileSizeY = (int) ((screenHeight - 80) / arrayOfMapElements[0].length);
-        adaptiveTileSizeX = (int) min(adaptiveTileSizeX, adaptiveTileSizeY);
+        tileSizeX = (int) (screenWidth / tileMap.length);
+        tileSizeY = (int) ((screenHeight - 80) / tileMap[0].length);
+        tileSizeX = (int) min(tileSizeX, tileSizeY);
         // calculates offset to draw level in the center of the frame
-        xRatioOffset = (int) (screenWidth - (arrayOfMapElements.length * adaptiveTileSizeX)) / 2;
-        yRatioOffset = (int) 30 + (screenHeight - (arrayOfMapElements[0].length * adaptiveTileSizeX)) / 2;
-        // System.out.println(" xOffset: " + xRatioOffset + " yOffset: " + yRatioOffset + "  adaptiveTileSizeX: "
-        //       + adaptiveTileSizeX + "   adaptiveTileSizeY:" + adaptiveTileSizeY);
-
+        xRatioOffset = (int) (screenWidth - (tileMap.length * tileSizeX)) / 2;
+        yRatioOffset = (int) 30 + (screenHeight - (tileMap[0].length * tileSizeX)) / 2;
     }
 
     // draw method draws on graphics object: top menu, and all tiles based on information 
@@ -71,22 +67,20 @@ public class PaintLevel {
         graphics.drawString("Q - Quit", 4 * (screenWidth / 5), 50);
         // declaring 2D array tileMap to get from levelToPaint object by getter getTileMap()
         Tile[][] tileMap = levelToPaint.getTileMap();
-        // looking through each element of 2D array and adding texture to graphics object depending on tile type
+        // iterate through each element of 2D array and adding texture to graphics object depending on tile type
         for (int i = 0; i < tileMap.length; i++) {
             Tile[] tileRow = tileMap[i];
             for (int j = 0; j < tileRow.length; j++) {
 
                 switch (tileRow[j].getTileType()) {
                     case FLOOR:
-                        tileDraw(graphics, textureFloor, i, j);
+                        drawTile(graphics, textureFloor, i, j);
                         break;
                     case WALL:
-                        tileDraw(graphics, textureWall, i, j);
+                        drawTile(graphics, textureWall, i, j);
                         break;
                     case SOCKET:
-                        tileDraw(graphics, textureSocket, i, j);
-                        break;
-                    case EMPTY:
+                        drawTile(graphics, textureSocket, i, j);
                         break;
                     default:
                 }
@@ -97,34 +91,33 @@ public class PaintLevel {
                     switch (tileRow[j].getMovable().getTileType()) {
                         case PLAYER:
                             graphics.drawImage(texturePlayer,
-                                    i * adaptiveTileSizeX + xRatioOffset + 1, j * adaptiveTileSizeX + yRatioOffset + 1,
-                                    adaptiveTileSizeX - 2, adaptiveTileSizeX - 2, null);
+                                    i * tileSizeX + xRatioOffset + 1, j * tileSizeX + yRatioOffset + 1,
+                                    tileSizeX - 2, tileSizeX - 2, null);
                             break;
                         case BOX:
                             graphics.drawImage(textureBox,
-                                    i * adaptiveTileSizeX + xRatioOffset, j * adaptiveTileSizeX + yRatioOffset,
-                                    adaptiveTileSizeX - 1, adaptiveTileSizeX - 1, null);
+                                    i * tileSizeX + xRatioOffset, j * tileSizeX + yRatioOffset,
+                                    tileSizeX - 1, tileSizeX - 1, null);
                             break;
                     }
                 }
             }
         }
-
-        //  rysowanie.draw(bf.getGraphics());
-        //  rewrite to window video memory (component)
+        
+        //  rewrite graphics (memory area) to window (video memory) (component)
         graphicsComp.drawImage(screenBuffer, 0, 0, null);
     }
     
     // method draws tiles - places a texture in certain position of graphics object
-    private void tileDraw(Graphics graphics, BufferedImage texture, int i, int j) {
+    private void drawTile(Graphics graphics, BufferedImage texture, int i, int j) {
         graphics.drawImage(texture,
-                i * adaptiveTileSizeX + xRatioOffset,
-                j * adaptiveTileSizeX + yRatioOffset,
-                adaptiveTileSizeX, adaptiveTileSizeX, null);
+                i * tileSizeX + xRatioOffset,
+                j * tileSizeX + yRatioOffset,
+                tileSizeX, tileSizeX, null);
     }
 
-    //  method load textures  prevalidation  loadin     ?????????????????
-    //  if texture cannot be found - throws exception        ????????????????
+    //  method load textures 
+    //  if texture cannot be found - throws exception 
     public void loadTextures(int currentLevel) throws IOException {
         if (currentLevel == 1) {
             textureWall = ImageIO.read(getClass().getResource("/wall_steel.png"));

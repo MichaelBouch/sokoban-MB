@@ -5,18 +5,21 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.logging.Logger;
 
-// Game class methods does:
+//  Game class methods does:
 //  Load levels (calls nethod createLevelFromFile())
 //  paints level: drawLevel method
 //  reads keyboard keys pressed: startKeyboardHandl dispatchKeyEvent methods
 public class Game {
 
-    private int movesCounter; // stores number of moves in each level
-    private int currentLevel; // stores number of current level
-    private Level level;  // declaration of level object
-    private PaintLevel paintLevel; // declaration of paintLevel object
+    // stores number of moves in each level
+    private int movesCounter;
+    // stores number of current level
+    private int currentLevel;
+    // declaration of level object
+    private Level level;
+    // declaration of paintLevel object
+    private PaintLevel paintLevel;
     private boolean initalized;
 
     // Game class constructor
@@ -29,7 +32,6 @@ public class Game {
         paintLevel.draw(graphics, movesCounter, currentLevel);
     }
 
-    //  prevalidation 
     //  overloading methods
     //  loading level methods catching exception when a texture cannot be found
     public boolean loadLevel() {
@@ -54,6 +56,7 @@ public class Game {
             paintLevel.loadTextures(currentLevel);
         } catch (IllegalArgumentException | IOException ex) {
             System.out.println("Cannot load All textures   " + ex);
+            //  prevalidation 
             return false;
         }
         initalized = true;
@@ -62,32 +65,32 @@ public class Game {
 
     // keyboard manager method
     public void startKeyboardHandl() {
-        KeyboardFocusManager.
-                getCurrentKeyboardFocusManager().
-                addKeyEventDispatcher(
-                        // new object listening for keyboard events
-                        new KeyEventDispatcher() {
-                    @Override
-                    public boolean dispatchKeyEvent(KeyEvent e) {
-
-                        if (e.getID() == KeyEvent.KEY_RELEASED) {
-                            //   System.out.println("Got key = " + e.getKeyCode());
-                            boolean needRepaint = handleKeyPress(e.getKeyCode());
-                            if (needRepaint) {
-                                System.out.println("moves counter: " + movesCounter);
-                                if (level.isLevelFinished()) {
-                                    loadLevel(currentLevel + 1);
-                                }
-                                e.getComponent().repaint();
-
-                            }
-                            return needRepaint;
-                        }
-                        return false;
-                    }
-                }
-                );
+        // register key event 
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(gameKeyDispatcher);
     }
+
+    // new object listening for keyboard events
+    private KeyEventDispatcher gameKeyDispatcher = new KeyEventDispatcher() {
+        // keyboard manager call this method on every keyevent
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent e) {
+
+            if (e.getID() == KeyEvent.KEY_RELEASED) {
+                //   System.out.println("Got key = " + e.getKeyCode());
+                boolean gameStateChanged = handleKeyPress(e.getKeyCode());
+                if (gameStateChanged) {
+                    System.out.println("moves counter: " + movesCounter);
+                    if (level.isLevelFinished()) {
+                        loadLevel(currentLevel + 1);
+                    }
+                    // returns source component and calls repaint on it
+                    e.getComponent().repaint();
+                }
+                return gameStateChanged;
+            }
+            return false;
+        }
+    };
 
     // keyboard event handling - different methods calls depending of keys pressed 
     public boolean handleKeyPress(int keyCode) {
@@ -97,23 +100,27 @@ public class Game {
                 // when methods returns true (player have moved) then movesCounter increased by 1
                 if (level.moveLeft()) {
                     movesCounter++;
-                }
                 return true;
+                }
+                break;
             case KeyEvent.VK_UP:
                 if (level.moveUp()) {
                     movesCounter++;
-                }
                 return true;
+                }
+                break;
             case KeyEvent.VK_RIGHT:
                 if (level.moveRight()) {
                     movesCounter++;
-                }
                 return true;
+                }
+                break;
             case KeyEvent.VK_DOWN:
                 if (level.moveDown()) {
                     movesCounter++;
-                }
                 return true;
+                }
+                break;
             case KeyEvent.VK_Q:
                 // program exit
                 System.exit(0);
@@ -126,7 +133,7 @@ public class Game {
         return false;
     }
 
-    // ???????????????????????
+    //  getter to return initialized state of game
     public boolean isInitalized() {
         return initalized;
     }

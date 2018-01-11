@@ -3,7 +3,6 @@ package com.mb;
 import static com.mb.Tile.WALL;
 import static com.mb.Tile.BOX;
 import static com.mb.Tile.SOCKET;
-import static com.mb.Tile.EMPTY;
 import static com.mb.Tile.PLAYER;
 import static com.mb.Tile.FLOOR;
 import java.util.ArrayList;
@@ -14,9 +13,9 @@ public class Level {
 
     private int levelWidth = 0;
     private int levelHeight = 0;
-    // playerPositionX/Y  stores player coordinates as long as object level exists
-    private int playerPositionX;
-    private int playerPositionY;
+    // playerX/Y  stores player coordinates as long as object level exists
+    private int playerX;
+    private int playerY;
     private Tile[][] tileMap;
 
     // method returns 2D array of Tile type elements
@@ -29,7 +28,7 @@ public class Level {
     public void createLevelFromFile(int levelNumberToLoad) {
 
         // file level?.txt leaded and divided by lines  (lines) stored in ArrayList lines
-        ArrayList<String> lines = new ArrayList<String>();
+        ArrayList<String> lines = new ArrayList<>();
         Scanner sc = new Scanner(Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt"));
         // level Width and  level Height is defined by length of string and number of strings
         while (sc.hasNextLine()) {
@@ -43,8 +42,7 @@ public class Level {
         Tile[][] tempLevel = new Tile[levelWidth][levelHeight];
         // each element of the 2D array is filled with Tile type object according to file characters (X or " " or . or @ or *)
         for (int nLine = 0; nLine < levelHeight; nLine++) {
-            String tempString = "";
-            tempString = lines.get(nLine);
+            String tempString = lines.get(nLine);
 
             for (int nCharacter = 0; nCharacter < levelWidth; nCharacter++) {
                 switch (tempString.charAt(nCharacter)) {
@@ -60,8 +58,8 @@ public class Level {
                     case '@':
                         tempLevel[nCharacter][nLine] = new Tile(FLOOR);
                         tempLevel[nCharacter][nLine].setMovable(new Tile(PLAYER));
-                        playerPositionX = nCharacter;
-                        playerPositionY = nLine;
+                        playerX = nCharacter;
+                        playerY = nLine;
                         break;
                     case '*':
                         tempLevel[nCharacter][nLine] = new Tile(FLOOR);
@@ -81,30 +79,30 @@ public class Level {
     // methods returns true if player could move, if not method returns false
     public boolean moveUp() {
         //  If box is in the way of player and nothing stans behind box 
-        if (((tileMap[playerPositionX][playerPositionY - 1].getMovable() != null)
-                && (tileMap[playerPositionX][playerPositionY - 2].getMovable() == null)
-                && (tileMap[playerPositionX][playerPositionY - 1].getMovable().getTileType() == BOX))
-                && ((tileMap[playerPositionX][playerPositionY - 2].getTileType() == FLOOR)
-                || ((tileMap[playerPositionX][playerPositionY - 2].getTileType() == SOCKET)
-                && (tileMap[playerPositionX][playerPositionY - 2].getTileType() != WALL)))) {
+        if (((tileMap[playerX][playerY - 1].getMovable() != null)
+                && (tileMap[playerX][playerY - 2].getMovable() == null)
+                && (tileMap[playerX][playerY - 1].getMovable().getTileType() == BOX))
+                && ((tileMap[playerX][playerY - 2].getTileType() == FLOOR)
+                || ((tileMap[playerX][playerY - 2].getTileType() == SOCKET)
+                && (tileMap[playerX][playerY - 2].getTileType() != WALL)))) {
             //  then box is "shifted": Tile object in 2D array are copied
-            tileMap[playerPositionX][playerPositionY - 2].setMovable(tileMap[playerPositionX][playerPositionY - 1].getMovable());
-            tileMap[playerPositionX][playerPositionY - 1].setMovable(tileMap[playerPositionX][playerPositionY].getMovable());
+            tileMap[playerX][playerY - 2].setMovable(tileMap[playerX][playerY - 1].getMovable());
+            tileMap[playerX][playerY - 1].setMovable(tileMap[playerX][playerY].getMovable());
             // previous position of player "movable" Tile is erased (null)
-            tileMap[playerPositionX][playerPositionY].setMovable(null);
-            playerPositionY--;
+            tileMap[playerX][playerY].setMovable(null);
+            playerY--;
             // when player moved method returns true
             return true;
         } else {
             //  If FLOOR or SOCKET and not WALL is on the way of player then player moves by 1 step
-            if ((tileMap[playerPositionX][playerPositionY - 1].getMovable() == null)
-                    && ((tileMap[playerPositionX][playerPositionY - 1].getTileType() == FLOOR)
-                    || (tileMap[playerPositionX][playerPositionY - 1].getTileType() == SOCKET))) {
+            if ((tileMap[playerX][playerY - 1].getMovable() == null)
+                    && ((tileMap[playerX][playerY - 1].getTileType() == FLOOR)
+                    || (tileMap[playerX][playerY - 1].getTileType() == SOCKET))) {
                 //  player object copied imovement
-                tileMap[playerPositionX][playerPositionY - 1].setMovable(tileMap[playerPositionX][playerPositionY].getMovable());
+                tileMap[playerX][playerY - 1].setMovable(tileMap[playerX][playerY].getMovable());
                 // previous position of player "movable" Tile is erased (null)
-                tileMap[playerPositionX][playerPositionY].setMovable(null);
-                playerPositionY--;
+                tileMap[playerX][playerY].setMovable(null);
+                playerY--;
                 // when player moved method returns true
                 return true;
             }
@@ -114,29 +112,29 @@ public class Level {
 
     public boolean moveDown() {
         //  If box is in the way of player and nothing stans behind box 
-        if (((tileMap[playerPositionX][playerPositionY + 1].getMovable() != null)
-                && (tileMap[playerPositionX][playerPositionY + 2].getMovable() == null)
-                && (tileMap[playerPositionX][playerPositionY + 1].getMovable().getTileType() == BOX))
-                && ((tileMap[playerPositionX][playerPositionY + 2].getTileType() == FLOOR)
-                || ((tileMap[playerPositionX][playerPositionY + 2].getTileType() == SOCKET)
-                && (tileMap[playerPositionX][playerPositionY + 2].getTileType() != WALL)))) {
+        if (((tileMap[playerX][playerY + 1].getMovable() != null)
+                && (tileMap[playerX][playerY + 2].getMovable() == null)
+                && (tileMap[playerX][playerY + 1].getMovable().getTileType() == BOX))
+                && ((tileMap[playerX][playerY + 2].getTileType() == FLOOR)
+                || ((tileMap[playerX][playerY + 2].getTileType() == SOCKET)
+                && (tileMap[playerX][playerY + 2].getTileType() != WALL)))) {
             //  then box is "shifted": Tile object in 2D array are copied
-            tileMap[playerPositionX][playerPositionY + 2].setMovable(tileMap[playerPositionX][playerPositionY + 1].getMovable());
-            tileMap[playerPositionX][playerPositionY + 1].setMovable(tileMap[playerPositionX][playerPositionY].getMovable());
+            tileMap[playerX][playerY + 2].setMovable(tileMap[playerX][playerY + 1].getMovable());
+            tileMap[playerX][playerY + 1].setMovable(tileMap[playerX][playerY].getMovable());
             // previous position of player "movable" Tile is erased (null)
-            tileMap[playerPositionX][playerPositionY].setMovable(null);
-            playerPositionY++;
+            tileMap[playerX][playerY].setMovable(null);
+            playerY++;
             // when player moved method returns true
             return true;
         } else {
             //  If FLOOR or SOCKET and not WALL is on the way of player then player moves by 1 step
-            if ((tileMap[playerPositionX][playerPositionY + 1].getMovable() == null)
-                    && ((tileMap[playerPositionX][playerPositionY + 1].getTileType() == FLOOR)
-                    || (tileMap[playerPositionX][playerPositionY + 1].getTileType() == SOCKET))) {
+            if ((tileMap[playerX][playerY + 1].getMovable() == null)
+                    && ((tileMap[playerX][playerY + 1].getTileType() == FLOOR)
+                    || (tileMap[playerX][playerY + 1].getTileType() == SOCKET))) {
                 // previous position of player "movable" Tile is erased (null)
-                tileMap[playerPositionX][playerPositionY + 1].setMovable(tileMap[playerPositionX][playerPositionY].getMovable());
-                tileMap[playerPositionX][playerPositionY].setMovable(null);
-                playerPositionY++;
+                tileMap[playerX][playerY + 1].setMovable(tileMap[playerX][playerY].getMovable());
+                tileMap[playerX][playerY].setMovable(null);
+                playerY++;
                 // when player moved method returns true
                 return true;
             }
@@ -146,29 +144,29 @@ public class Level {
 
     public boolean moveRight() {
         //  If box is in the way of player and nothing stans behind box 
-        if (((tileMap[playerPositionX + 1][playerPositionY].getMovable() != null)
-                && (tileMap[playerPositionX + 2][playerPositionY].getMovable() == null)
-                && (tileMap[playerPositionX + 1][playerPositionY].getMovable().getTileType() == BOX))
-                && ((tileMap[playerPositionX + 2][playerPositionY].getTileType() == FLOOR)
-                || ((tileMap[playerPositionX + 2][playerPositionY].getTileType() == SOCKET)
-                && (tileMap[playerPositionX + 2][playerPositionY].getTileType() != WALL)))) {
+        if (((tileMap[playerX + 1][playerY].getMovable() != null)
+                && (tileMap[playerX + 2][playerY].getMovable() == null)
+                && (tileMap[playerX + 1][playerY].getMovable().getTileType() == BOX))
+                && ((tileMap[playerX + 2][playerY].getTileType() == FLOOR)
+                || ((tileMap[playerX + 2][playerY].getTileType() == SOCKET)
+                && (tileMap[playerX + 2][playerY].getTileType() != WALL)))) {
             //  then box is "shifted": Tile object in 2D array are copied
-            tileMap[playerPositionX + 2][playerPositionY].setMovable(tileMap[playerPositionX + 1][playerPositionY].getMovable());
-            tileMap[playerPositionX + 1][playerPositionY].setMovable(tileMap[playerPositionX][playerPositionY].getMovable());
+            tileMap[playerX + 2][playerY].setMovable(tileMap[playerX + 1][playerY].getMovable());
+            tileMap[playerX + 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
             // previous position of player "movable" Tile is erased (null)
-            tileMap[playerPositionX][playerPositionY].setMovable(null);
-            playerPositionX++;
+            tileMap[playerX][playerY].setMovable(null);
+            playerX++;
             // when player moved method returns true
             return true;
         } else {
             //  If FLOOR or SOCKET and not WALL is on the way of player then player moves by 1 step
-            if ((tileMap[playerPositionX + 1][playerPositionY].getMovable() == null)
-                    && ((tileMap[playerPositionX + 1][playerPositionY].getTileType() == FLOOR)
-                    || (tileMap[playerPositionX + 1][playerPositionY].getTileType() == SOCKET))) {
+            if ((tileMap[playerX + 1][playerY].getMovable() == null)
+                    && ((tileMap[playerX + 1][playerY].getTileType() == FLOOR)
+                    || (tileMap[playerX + 1][playerY].getTileType() == SOCKET))) {
                 //  player movement
-                tileMap[playerPositionX + 1][playerPositionY].setMovable(tileMap[playerPositionX][playerPositionY].getMovable());
-                tileMap[playerPositionX][playerPositionY].setMovable(null);
-                playerPositionX++;
+                tileMap[playerX + 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
+                tileMap[playerX][playerY].setMovable(null);
+                playerX++;
                 // when player moved method returns true
                 return true;
             }
@@ -178,29 +176,29 @@ public class Level {
 
     public boolean moveLeft() {
         //  If box is in the way of player and nothing stans behind box 
-        if (((tileMap[playerPositionX - 1][playerPositionY].getMovable() != null)
-                && (tileMap[playerPositionX - 2][playerPositionY].getMovable() == null)
-                && (tileMap[playerPositionX - 1][playerPositionY].getMovable().getTileType() == BOX))
-                && ((tileMap[playerPositionX - 2][playerPositionY].getTileType() == FLOOR)
-                || ((tileMap[playerPositionX - 2][playerPositionY].getTileType() == SOCKET)
-                && (tileMap[playerPositionX - 2][playerPositionY].getTileType() != WALL)))) {
+        if (((tileMap[playerX - 1][playerY].getMovable() != null)
+                && (tileMap[playerX - 2][playerY].getMovable() == null)
+                && (tileMap[playerX - 1][playerY].getMovable().getTileType() == BOX))
+                && ((tileMap[playerX - 2][playerY].getTileType() == FLOOR)
+                || ((tileMap[playerX - 2][playerY].getTileType() == SOCKET)
+                && (tileMap[playerX - 2][playerY].getTileType() != WALL)))) {
             //  then box is "shifted": Tile object in 2D array are copied
-            tileMap[playerPositionX - 2][playerPositionY].setMovable(tileMap[playerPositionX - 1][playerPositionY].getMovable());
-            tileMap[playerPositionX - 1][playerPositionY].setMovable(tileMap[playerPositionX][playerPositionY].getMovable());
+            tileMap[playerX - 2][playerY].setMovable(tileMap[playerX - 1][playerY].getMovable());
+            tileMap[playerX - 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
             // previous position of player "movable" Tile is erased (null)
-            tileMap[playerPositionX][playerPositionY].setMovable(null);
-            playerPositionX--;
+            tileMap[playerX][playerY].setMovable(null);
+            playerX--;
             // when player moved method returns true
             return true;
         } else {
             //  If FLOOR or SOCKET and not WALL is on the way of player then player moves by 1 step
-            if ((tileMap[playerPositionX - 1][playerPositionY].getMovable() == null)
-                    && ((tileMap[playerPositionX - 1][playerPositionY].getTileType() == FLOOR)
-                    || (tileMap[playerPositionX - 1][playerPositionY].getTileType() == SOCKET))) {
+            if ((tileMap[playerX - 1][playerY].getMovable() == null)
+                    && ((tileMap[playerX - 1][playerY].getTileType() == FLOOR)
+                    || (tileMap[playerX - 1][playerY].getTileType() == SOCKET))) {
                 //  player movement
-                tileMap[playerPositionX - 1][playerPositionY].setMovable(tileMap[playerPositionX][playerPositionY].getMovable());
-                tileMap[playerPositionX][playerPositionY].setMovable(null);
-                playerPositionX--;
+                tileMap[playerX - 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
+                tileMap[playerX][playerY].setMovable(null);
+                playerX--;
                 // when player moved method returns true
                 return true;
             }

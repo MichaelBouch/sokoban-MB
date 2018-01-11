@@ -1,35 +1,36 @@
 package com.mb;
 
-import java.awt.DisplayMode;
 import java.awt.Graphics;
 import javax.swing.JFrame;
 
 /**
  * * * * * @MichalBoduch user
  */
-//  class sokoban_mb  inherits  JFrame methods/functions
-public class sokoban_mb extends JFrame {
-    
-    //    ??????????     declaring game class
+//  class SokobanMb  inherits  JFrame methods/functions
+public class SokobanMb extends JFrame {
+
+    //   declaring game class
     private Game game;
-    //    ?????????????
+
+    //  overrides JFrame paint method
     @Override
     //  redraws level - when needed
     public void paint(Graphics graphics) {
+        // when game is initalized and object game is not null then draw level and menu
         if (game != null && game.isInitalized()) {
             game.drawLevel(graphics);
         }
     }
 
-    //   method run   ??????????????????????
-    public void run(DisplayMode displayMode) {
+    //   method initializeGame sta
+    public void initializeGame() {
         // setting JFrame bounds
         setBounds(0, 0, 1200, 850);
         // setts JFrame visible
         setVisible(true);
         // creates object from Game() class
         game = new Game();
-        // calls loadLevel from game object to load first level
+        // calls loadLevel from game object to load first level with given screen size
         game.loadLevel(1, 1200, 850);
         // calls startKeyboardHandl method to start keyboard manager
         game.startKeyboardHandl();
@@ -40,11 +41,11 @@ public class sokoban_mb extends JFrame {
     /**
      * * * @param args the command line arguments
      */
-    //  main class   ?????????????????????
-    public static void main(String[] args) {     
-        // creates sokoban object from sokoban_mb class (type of JFrame) 
-        sokoban_mb sokoban = new sokoban_mb();    // run  will take displayMode as parameter
+    //  main class -starts program ( creates sokoban object from SokobanMb class)
+    public static void main(String[] args) {
+        // creates sokoban object from SokobanMb class (type of JFrame) 
+        SokobanMb sokoban = new SokobanMb();    // run  will take displayMode as parameter
         // calls method run from sokoban object
-        sokoban.run(null);
+        sokoban.initializeGame();
     }
 }
