@@ -4,30 +4,50 @@ import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Game {
 
-    private int movesCounter = 0;
-    private int currentLevel = 1;
+    private int movesCounter;
+    private int currentLevel;
     private Level level;
     private PaintLevel rysowanie;
+    private boolean initalized;
 
     public Game() {
+        initalized = false;
     }
 
     public void drawLevel(Graphics graphics) {
-        rysowanie.paintLevel(graphics);
-//        rysowanie.paintLevel(bf.getGraphics());
-//        graphics.drawImage(bf, 0, 0, null);
+        rysowanie.draw(graphics, movesCounter, currentLevel);
     }
 
-    public void loadLevel(int levelNumber) {
+    //  prevalidation 
+    public boolean loadLevel() {
+        return loadLevel(1);
+    }
+
+    public boolean loadLevel(int levelNumber) {
+        return loadLevel(levelNumber, 1200, 850);
+    }
+    
+    public boolean loadLevel(int levelNumber, int width, int height) {
+        initalized = false;
+        movesCounter = 0;
         currentLevel = levelNumber;
         level = new Level();
         level.createLevelFromFile(currentLevel);
-        rysowanie = new PaintLevel(level, 1200, 850);
-    }
+        rysowanie = new PaintLevel(level, width, height);
+        try {
+            rysowanie.loadTextures(currentLevel);
+        } catch (IllegalArgumentException | IOException ex) {
+            System.out.println("Cannot load All textures   " + ex);
+            return false;
+        } 
+        initalized = true;
+        return true;
+    } 
 
     public void startKeyboardHandl() {
         KeyboardFocusManager.
@@ -42,6 +62,7 @@ public class Game {
                             //   System.out.println("Got key = " + e.getKeyCode());
                             boolean needRepaint = handleKeyPress(e.getKeyCode());
                             if (needRepaint) {
+                                System.out.println("moves counter: " + movesCounter);
                                 if (level.isLevelFinished()) {
                                     loadLevel(currentLevel + 1);
                                 }
@@ -80,14 +101,18 @@ public class Game {
                 return true;
             case KeyEvent.VK_Q:
                 System.exit(0);
-            //           case KeyEvent.VK_R:
-            //             restart = new sokoban_mb().launch();
-//            case KeyEvent.VK_R:
-//                System.exit(1);
+            case KeyEvent.VK_R:
+                loadLevel(currentLevel);
+
+                return true;
             default:
         }
-        System.out.println(movesCounter);
+
         return false;
+    }
+
+    public boolean isInitalized() {
+        return initalized;
     }
 
 }
