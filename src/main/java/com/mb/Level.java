@@ -16,6 +16,7 @@ public class Level {
     // playerX/Y  stores player coordinates as long as object level exists
     private int playerX;
     private int playerY;
+    // declaration 
     private Tile[][] tileMap;
 
     // method returns 2D array of Tile type elements
@@ -28,21 +29,23 @@ public class Level {
     public void createLevelFromFile(int levelNumberToLoad) {
 
         // file level?.txt leaded and divided by lines  (lines) stored in ArrayList lines
-        ArrayList<String> lines = new ArrayList<>();
-        Scanner sc = new Scanner(Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt"));
+        ArrayList<String> listOfStrings = new ArrayList<>();
+        Scanner loadedFile = new Scanner(Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt"));
         // level Width and  level Height is defined by length of string and number of strings
-        while (sc.hasNextLine()) {
-            lines.add(sc.nextLine());
+        while (loadedFile.hasNextLine()) {
+            listOfStrings.add(loadedFile.nextLine());
         }
-        (lines).forEach(System.out::println);
-        levelWidth = lines.get(0).length();
-        levelHeight = lines.size();
-        System.out.println(levelWidth + "  " + levelHeight);
+        for (String s : listOfStrings) {
+            System.out.println(s);
+        }
+        levelWidth = listOfStrings.get(0).length();
+        levelHeight = listOfStrings.size();
+        System.out.println("levelWidth: " + levelWidth + " levelHeight: " + levelHeight);
         // 2D array of Tile type elements is created
         Tile[][] tempLevel = new Tile[levelWidth][levelHeight];
         // each element of the 2D array is filled with Tile type object according to file characters (X or " " or . or @ or *)
         for (int nLine = 0; nLine < levelHeight; nLine++) {
-            String tempString = lines.get(nLine);
+            String tempString = listOfStrings.get(nLine);
 
             for (int nCharacter = 0; nCharacter < levelWidth; nCharacter++) {
                 switch (tempString.charAt(nCharacter)) {
