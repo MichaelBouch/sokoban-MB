@@ -14,46 +14,51 @@ public class LevelTest {
     //  X   XX
     //  XXXXXX
     
+    
+    // testing map loader if method createLevelFromFile() can load the test level file  
+    // (/src/test/test/resources/level1.txt)  and properly read width and height
     @Test
     public void mapSizeTest() {
         System.out.println("getTileMap");
         Level testLevelObject = new Level();
         testLevelObject.createLevelFromFile(1);
         Tile[][] tileMap = testLevelObject.getTileMap();
-        // test assert that map width is 6
+        // assert that map width is 6
         assertEquals(6, tileMap.length);
-        // test assert that map height is 4
+        // assert that map height is 4
         assertEquals(4, tileMap[0].length);
     }
 
-    //  test Level class and methods: createLevelFromFile, isLevelFinished from test.txt file
+    //  Test of isLevelFinished method - if player can move down twice 
+    //  then isLevelFinished() method will return false value - level is not accomplished
     @Test
-    public void moveDownTest() {
+    public void moveDownWithoutFinishingLevelTest() {
         System.out.println("getTileMap");
         Level testLevelObject = new Level();
         testLevelObject.createLevelFromFile(1);
-        //  test asserts if player can move - moveDown() method will return true
+        //  assert if player can move - moveDown() method should return true
         assertTrue(testLevelObject.moveDown());
-        //  test asserts if player will move down once and level will not be accomplished
+        //  assert if player will move down once and level should not be accomplished
         assertFalse(testLevelObject.isLevelFinished());
-        //  test asserts if player can move - moveDown() method will return true
+        //  assert if player can move - moveDown() method should return true
         assertFalse(testLevelObject.moveDown());
-        //  test asserts if player will move down once and level will not be accomplished
+        //  assert if player will move down once and level should not be accomplished
         assertFalse(testLevelObject.isLevelFinished());
     }
 
-    //  test isLevelFinished if player can move right twice and isLevelFinished will return true vale - level finished
+    //   test of isLevelFinished method if player can move right twice then isLevelFinished 
+    //  should return true value - level finished
     @Test
-    public void levelFinishTest() {
+    public void moveRightShoulFinishLevelTest() {
         Level testLevelObject = new Level();
         testLevelObject.createLevelFromFile(1);
-        //  test asserts that player can move 1 step right - moveRight() method will return true
+        //  asserts that player can move 1 step right - moveRight() method should return true
         assertTrue(testLevelObject.moveRight());
-        //  test asserts if player will move right once and level will not be accomplished
+        //  assert if player will move right once should level should not be accomplished
         assertFalse(testLevelObject.isLevelFinished());
-        //  test asserts that player can move 1 step down - moveRight() method will return true
+        //  assert that player can move 1 step right - moveRight() method should return true
         assertTrue(testLevelObject.moveRight());
-        //  test asserts if player will move right once and level will be accomplished
+        //  assert if player will move right once  then level should be accomplished – testLevelObject.isLevelFinished() will return true
         assertTrue(testLevelObject.isLevelFinished());
     }
     
