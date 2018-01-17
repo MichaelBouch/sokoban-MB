@@ -2,13 +2,33 @@ package com.mb.tiles;
 
 public class Floor {
 
-    private boolean isEmpty;
-    private Floor movable;
+    private Box movable;
 
-    void putOnTheFloor() {
+    private int tileType;
+
+    public Box getMovable() {
+        return movable;
     }
 
-    boolean isEmpty() {
-        return this.isEmpty;
+    public void setMovable(Box movable) {
+        this.movable = movable;
+    }
+
+    public int getTileType() {
+        return tileType;
+    }
+
+    public void setTileType(int tileType) {
+        this.tileType = tileType;
+    }
+
+    
+
+    Box isEmpty() {
+        if (movable == null) {
+            return null;
+        } else {
+            return movable;
+        }
     }
 }
