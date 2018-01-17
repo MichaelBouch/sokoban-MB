@@ -1,5 +1,6 @@
 package com.mb.tiles;
 
-public class Box {
-
+public class Box extends Floor {
+    
+    
 }
