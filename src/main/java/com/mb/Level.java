@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 // class level functions:  load nth level from txt files and creates 2D array of Tile type elements
-public class Level {
+public class Level extends Coord{
 
     private int levelWidth = 0;
     private int levelHeight = 0;
     // playerX/Y  stores player coordinates as long as object level exists
     private int playerX;
     private int playerY;
+    private Coord coord;
     // declaration 
     private Tile[][] tileMap;
 
@@ -61,6 +62,7 @@ public class Level {
                     case '@':
                         tempLevel[nCharacter][nLine] = new Tile(FLOOR);
                         tempLevel[nCharacter][nLine].setMovable(new Tile(PLAYER));
+//                        Coord coord = new Coord(nCharacter,nLine);
                         playerX = nCharacter;
                         playerY = nLine;
                         break;

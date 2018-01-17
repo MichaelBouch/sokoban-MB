@@ -75,7 +75,7 @@ public class Game {
         @Override
         public boolean dispatchKeyEvent(KeyEvent e) {
 
-            if (e.getID() == KeyEvent.KEY_RELEASED) {
+            if (e.getID() == KeyEvent.KEY_PRESSED) {
                 //   System.out.println("Got key = " + e.getKeyCode());
                 boolean gameStateChanged = handleKeyPress(e.getKeyCode());
                 if (gameStateChanged) {

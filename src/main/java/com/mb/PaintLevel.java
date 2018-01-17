@@ -128,6 +128,6 @@ public class PaintLevel {
         textureBox = ImageIO.read(getClass().getResource("/box1.png"));
         texturePlayer = ImageIO.read(getClass().getResource("/player6.png"));
         textureFloor = ImageIO.read(getClass().getResource("/floor1.png"));
-        textureSocket = ImageIO.read(getClass().getResource("/floor1_socket1.png"));
+        textureSocket = ImageIO.read(getClass().getResource("/floor1_socket3.png"));
     }
 }

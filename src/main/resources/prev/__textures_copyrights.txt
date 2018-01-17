@@ -1,0 +1,10 @@
+Developer(s) id Software
+Publisher(s) Apogee Software
+FormGen (Spear of Destiny)
+Director(s) Tom Hall
+Designer(s) John Romero Tom Hall
+Programmer(s) John Carmack  John Romero
+Artist(s)	Adrian Carmack
+Composer(s)	Robert Prince    Series Wolfenstein
+Platform(s)   MS-DOS[show]  
+Release May 5, 1992
