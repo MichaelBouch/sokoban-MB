@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mb;
+package com.mb.tiles;
 
 /**
  *
  * @author user
  */
-public class Wall {
+public class Player extends Box {
     
 }

@@ -1,5 +1,7 @@
 package com.mb;
 
+import com.mb.Coord;
+import com.mb.Tile;
 import static com.mb.Tile.WALL;
 import static com.mb.Tile.BOX;
 import static com.mb.Tile.SOCKET;
