@@ -84,130 +84,34 @@ public class Level extends Coord {
         tileMap = tempLevel;
     }
 
+
+
     // methods validating if player can move and if it's possible then shifts player position (add or decrease playerPosition by 1)
     // methods returns true if player could move, if not method returns false
-    public boolean moveUp() {
-        //  If box is in the way of player and nothing stans behind box 
-//        1) jezelu najblizszy kadelek jest PUSTY
-//lub
-//2) jest na nim pudelko i kolejny jest PUSTY
-        if (tileMap[playerX][playerY - 1].isEmpty()) { // nastepny jest pusty 
-            tileMap[playerX][playerY - 1].setMovable(tileMap[playerX][playerY].getMovable());
+    public boolean movePlayerBy(int x, int y) {
+        //  If nothing is in the way of player
+        if (tileMap[playerX + x][playerY + y].isEmpty()) {
+            tileMap[playerX + x][playerY + y].setMovable(tileMap[playerX][playerY].getMovable());
             // previous position of player "movable" Floor is erased (null)
             tileMap[playerX][playerY].setMovable(null);
-            playerY--;
+            playerX = playerX + x;
+            playerY = playerY + y;
             return true;
         }
-        // lub
-        if (tileMap[playerX][playerY - 1].hasBox() //jest na nim pudelko i kolejny jest PUSTY
-
-                && tileMap[playerX][playerY - 2].isEmpty()) { //2 dalej jest pusty
-            tileMap[playerX][playerY - 2].setMovable(tileMap[playerX][playerY - 1].getMovable());
-            tileMap[playerX][playerY - 1].setMovable(tileMap[playerX][playerY].getMovable());
-            // previous position of player "movable" Floor is erased (null)
+        // if Box is in front of Player and nothing behing Box
+        if (tileMap[playerX + x][playerY + y].hasBox()
+                && tileMap[playerX + 2 * x][playerY + 2 * y].isEmpty()) {
+            tileMap[playerX + 2 * x][playerY + 2 * y].setMovable(tileMap[playerX + x][playerY + y].getMovable());
+            tileMap[playerX + x][playerY + y].setMovable(tileMap[playerX][playerY].getMovable());
+            // previous position of Player Floor is erased (null), Box object is copied one position forward
             tileMap[playerX][playerY].setMovable(null);
-            playerY--;
+            playerX = playerX + x;
+            playerY = playerY + y;
             // when player moved method returns true
             return true;
         }
         return false;
-    }
-
-    public boolean moveDown() {
-        //  If box is in the way of player and nothing stans behind box 
-        if (((tileMap[playerX][playerY + 1].getMovable() != null)
-                && (tileMap[playerX][playerY + 2].getMovable() == null)
-                && (tileMap[playerX][playerY + 1].getMovable().getTileType() == BOX))
-                && ((tileMap[playerX][playerY + 2].getTileType() == FLOOR)
-                || ((tileMap[playerX][playerY + 2].getTileType() == SOCKET)
-                && (tileMap[playerX][playerY + 2].getTileType() != WALL)))) {
-            //  then box is "shifted": Floor object in 2D array are copied
-            tileMap[playerX][playerY + 2].setMovable(tileMap[playerX][playerY + 1].getMovable());
-            tileMap[playerX][playerY + 1].setMovable(tileMap[playerX][playerY].getMovable());
-            // previous position of player "movable" Floor is erased (null)
-            tileMap[playerX][playerY].setMovable(null);
-            playerY++;
-            // when player moved method returns true
-            return true;
-        } else {
-            //  If FLOOR or SOCKET and not WALL is on the way of player then player moves by 1 step
-            if ((tileMap[playerX][playerY + 1].getMovable() == null)
-                    && ((tileMap[playerX][playerY + 1].getTileType() == FLOOR)
-                    || (tileMap[playerX][playerY + 1].getTileType() == SOCKET))) {
-                // previous position of player "movable" Floor is erased (null)
-                tileMap[playerX][playerY + 1].setMovable(tileMap[playerX][playerY].getMovable());
-                tileMap[playerX][playerY].setMovable(null);
-                playerY++;
-                // when player moved method returns true
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean moveRight() {
-        //  If box is in the way of player and nothing stans behind box 
-        if (((tileMap[playerX + 1][playerY].getMovable() != null)
-                && (tileMap[playerX + 2][playerY].getMovable() == null)
-                && (tileMap[playerX + 1][playerY].getMovable().getTileType() == BOX))
-                && ((tileMap[playerX + 2][playerY].getTileType() == FLOOR)
-                || ((tileMap[playerX + 2][playerY].getTileType() == SOCKET)
-                && (tileMap[playerX + 2][playerY].getTileType() != WALL)))) {
-            //  then box is "shifted": Floor object in 2D array are copied
-            tileMap[playerX + 2][playerY].setMovable(tileMap[playerX + 1][playerY].getMovable());
-            tileMap[playerX + 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
-            // previous position of player "movable" Floor is erased (null)
-            tileMap[playerX][playerY].setMovable(null);
-            playerX++;
-            // when player moved method returns true
-            return true;
-        } else {
-            //  If FLOOR or SOCKET and not WALL is on the way of player then player moves by 1 step
-            if ((tileMap[playerX + 1][playerY].getMovable() == null)
-                    && ((tileMap[playerX + 1][playerY].getTileType() == FLOOR)
-                    || (tileMap[playerX + 1][playerY].getTileType() == SOCKET))) {
-                //  player movement
-                tileMap[playerX + 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
-                tileMap[playerX][playerY].setMovable(null);
-                playerX++;
-                // when player moved method returns true
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean moveLeft() {
-        //  If box is in the way of player and nothing stans behind box 
-        if (((tileMap[playerX - 1][playerY].getMovable() != null)
-                && (tileMap[playerX - 2][playerY].getMovable() == null)
-                && (tileMap[playerX - 1][playerY].getMovable().getTileType() == BOX))
-                && ((tileMap[playerX - 2][playerY].getTileType() == FLOOR)
-                || ((tileMap[playerX - 2][playerY].getTileType() == SOCKET)
-                && (tileMap[playerX - 2][playerY].getTileType() != WALL)))) {
-            //  then box is "shifted": Floor object in 2D array are copied
-            tileMap[playerX - 2][playerY].setMovable(tileMap[playerX - 1][playerY].getMovable());
-            tileMap[playerX - 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
-            // previous position of player "movable" Floor is erased (null)
-            tileMap[playerX][playerY].setMovable(null);
-            playerX--;
-            // when player moved method returns true
-            return true;
-        } else {
-            //  If FLOOR or SOCKET and not WALL is on the way of player then player moves by 1 step
-            if ((tileMap[playerX - 1][playerY].getMovable() == null)
-                    && ((tileMap[playerX - 1][playerY].getTileType() == FLOOR)
-                    || (tileMap[playerX - 1][playerY].getTileType() == SOCKET))) {
-                //  player movement
-                tileMap[playerX - 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
-                tileMap[playerX][playerY].setMovable(null);
-                playerX--;
-                // when player moved method returns true
-                return true;
-            }
-        }
-        return false;
-    }
+    } 
 
     // method check every element of 2D Tiles objects and if any SOCKET DOES NOT contain BOX then method returns FALSE 
     // if ALL sockets contains BOX then method returns true
@@ -222,4 +126,5 @@ public class Level extends Coord {
         }
         return true;
     }
+
 }

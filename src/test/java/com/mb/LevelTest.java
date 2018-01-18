@@ -38,11 +38,11 @@ public class LevelTest {
         Level testLevelObject = new Level();
         testLevelObject.createLevelFromFile(1);
         //  assert if player can move - moveDown() method should return true
-        assertTrue(testLevelObject.moveDown());
+        assertTrue(testLevelObject.movePlayerBy(0, -1));
         //  assert if player will move down once and level should not be accomplished
         assertFalse(testLevelObject.isLevelFinished());
         //  assert if player can move - moveDown() method should return true
-        assertFalse(testLevelObject.moveDown());
+        assertFalse(testLevelObject.movePlayerBy(0, -1));
         //  assert if player will move down once and level should not be accomplished
         assertFalse(testLevelObject.isLevelFinished());
     }
@@ -54,11 +54,11 @@ public class LevelTest {
         Level testLevelObject = new Level();
         testLevelObject.createLevelFromFile(1);
         //  asserts that player can move 1 step right - moveRight() method should return true
-        assertTrue(testLevelObject.moveRight());
+        assertTrue(testLevelObject.movePlayerBy(1, 0));
         //  assert if player will move right once should level should not be accomplished
         assertFalse(testLevelObject.isLevelFinished());
         //  assert that player can move 1 step right - moveRight() method should return true
-        assertTrue(testLevelObject.moveRight());
+        assertTrue(testLevelObject.movePlayerBy(1, 0));
         //  assert if player will move right once  then level should be accomplished – testLevelObject.isLevelFinished() will return true
         assertTrue(testLevelObject.isLevelFinished());
     }

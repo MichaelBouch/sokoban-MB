@@ -98,25 +98,25 @@ public class Game {
             case KeyEvent.VK_LEFT:
                 // calls moveLeft() method of object level
                 // when methods returns true (player have moved) then movesCounter increased by 1
-                if (level.moveLeft()) {
+                if (level.movePlayerBy(-1,0)) {
                     movesCounter++;
                 return true;
                 }
                 break;
             case KeyEvent.VK_UP:
-                if (level.moveUp()) {
+                if (level.movePlayerBy(0,-1)) {
                     movesCounter++;
                 return true;
                 }
                 break;
             case KeyEvent.VK_RIGHT:
-                if (level.moveRight()) {
+                if (level.movePlayerBy(1,0)) {
                     movesCounter++;
                 return true;
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                if (level.moveDown()) {
+                if (level.movePlayerBy(0,1)) {
                     movesCounter++;
                 return true;
                 }
