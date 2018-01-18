@@ -9,7 +9,6 @@ public class Floor {
     public static final int PLAYER = 3;
     public static final int SOCKET = 4;
     private Box movable;
-    private boolean isEmpty;
 
     private int tileType;
 
@@ -33,11 +32,18 @@ public class Floor {
         this.tileType = tileType;
     }
 
-    boolean isEmpty() {
-        if (movable == null) {
-            return false;
-        } else {
-            return true;
-        }
+    public boolean isEmpty() {
+        System.out.println("tekstA " + getClass().getCanonicalName());
+
+//        if (movable == null) {
+//            return true;
+//        }
+//        return false;
+        return movable == null;
     }
+
+    public boolean hasBox() {
+        return movable != null;
+    }
+
 }

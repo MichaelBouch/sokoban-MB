@@ -6,4 +6,10 @@ public class Wall extends Floor {
         super(tileType);
     }
 
+    @Override
+   public boolean isEmpty() {
+        System.out.println("tekst " + getClass().getCanonicalName());
+        return false;
+    }
+
 }

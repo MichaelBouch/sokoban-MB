@@ -2,7 +2,7 @@ package com.mb;
 
 //  class Tile defines type of tile 
 public class Tile {
-
+/*
     // variables available in whole program to define type of tiles
     public static final int FLOOR = 0;
     public static final int WALL = 1;
@@ -38,5 +38,5 @@ public class Tile {
     public void setTileType(int elementType) {
         this.tileType = elementType;
     }
-
+*/
 }

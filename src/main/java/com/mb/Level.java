@@ -8,6 +8,7 @@ import static com.mb.tiles.Floor.PLAYER;
 import static com.mb.tiles.Floor.SOCKET;
 import static com.mb.tiles.Floor.WALL;
 import com.mb.tiles.Player;
+import com.mb.tiles.Wall;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -54,7 +55,7 @@ public class Level extends Coord {
             for (int nCharacter = 0; nCharacter < levelWidth; nCharacter++) {
                 switch (tempString.charAt(nCharacter)) {
                     case 'X':
-                        tempLevel[nCharacter][nLine] = new Floor(WALL);
+                        tempLevel[nCharacter][nLine] = new Wall(WALL);
                         break;
                     case ' ':
                         tempLevel[nCharacter][nLine] = new Floor(FLOOR);
@@ -87,13 +88,20 @@ public class Level extends Coord {
     // methods returns true if player could move, if not method returns false
     public boolean moveUp() {
         //  If box is in the way of player and nothing stans behind box 
-        if (((tileMap[playerX][playerY - 1].getMovable() != null)
-                && (tileMap[playerX][playerY - 2].getMovable() == null)
-                && (tileMap[playerX][playerY - 1].getMovable().getTileType() == BOX))
-                && ((tileMap[playerX][playerY - 2].getTileType() == FLOOR)
-                || ((tileMap[playerX][playerY - 2].getTileType() == SOCKET)
-                && (tileMap[playerX][playerY - 2].getTileType() != WALL)))) {
-            //  then box is "shifted": Floor object in 2D array are copied
+//        1) jezelu najblizszy kadelek jest PUSTY
+//lub
+//2) jest na nim pudelko i kolejny jest PUSTY
+        if (tileMap[playerX][playerY - 1].isEmpty()) { // nastepny jest pusty 
+            tileMap[playerX][playerY - 1].setMovable(tileMap[playerX][playerY].getMovable());
+            // previous position of player "movable" Floor is erased (null)
+            tileMap[playerX][playerY].setMovable(null);
+            playerY--;
+            return true;
+        }
+        // lub
+        if (tileMap[playerX][playerY - 1].hasBox() //jest na nim pudelko i kolejny jest PUSTY
+
+                && tileMap[playerX][playerY - 2].isEmpty()) { //2 dalej jest pusty
             tileMap[playerX][playerY - 2].setMovable(tileMap[playerX][playerY - 1].getMovable());
             tileMap[playerX][playerY - 1].setMovable(tileMap[playerX][playerY].getMovable());
             // previous position of player "movable" Floor is erased (null)
@@ -101,19 +109,6 @@ public class Level extends Coord {
             playerY--;
             // when player moved method returns true
             return true;
-        } else {
-            //  If FLOOR or SOCKET and not WALL is on the way of player then player moves by 1 step
-            if ((tileMap[playerX][playerY - 1].getMovable() == null)
-                    && ((tileMap[playerX][playerY - 1].getTileType() == FLOOR)
-                    || (tileMap[playerX][playerY - 1].getTileType() == SOCKET))) {
-                //  player object copied imovement
-                tileMap[playerX][playerY - 1].setMovable(tileMap[playerX][playerY].getMovable());
-                // previous position of player "movable" Floor is erased (null)
-                tileMap[playerX][playerY].setMovable(null);
-                playerY--;
-                // when player moved method returns true
-                return true;
-            }
         }
         return false;
     }
