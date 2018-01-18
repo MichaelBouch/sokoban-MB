@@ -1,5 +1,6 @@
 package com.mb;
 
+import com.mb.tiles.Floor;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -22,7 +23,7 @@ public class LevelTest {
         System.out.println("getTileMap");
         Level testLevelObject = new Level();
         testLevelObject.createLevelFromFile(1);
-        Tile[][] tileMap = testLevelObject.getTileMap();
+        Floor[][] tileMap = testLevelObject.getTileMap();
         // assert that map width is 6
         assertEquals(6, tileMap.length);
         // assert that map height is 4

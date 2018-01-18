@@ -1,10 +1,11 @@
 package com.mb;
 
-import static com.mb.Tile.BOX;
-import static com.mb.Tile.FLOOR;
-import static com.mb.Tile.PLAYER;
-import static com.mb.Tile.SOCKET;
-import static com.mb.Tile.WALL;
+import com.mb.tiles.Floor;
+import static com.mb.tiles.Floor.BOX;
+import static com.mb.tiles.Floor.FLOOR;
+import static com.mb.tiles.Floor.PLAYER;
+import static com.mb.tiles.Floor.SOCKET;
+import static com.mb.tiles.Floor.WALL;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -38,8 +39,8 @@ public class PaintLevel {
         this.screenHeight = screenHeight;
 
         //  class attribute arrayOfMapElements get levelToPaint object
-        Tile[][] tileMap = levelToPaint.getTileMap();
-        // size of each tile calculated from screen size divided by number of rows / columns
+        Floor[][] tileMap = levelToPaint.getTileMap();
+        // size of each Floor calculated from screen size divided by number of rows / columns
         tileSizeX = (int) (screenWidth / tileMap.length);
         tileSizeY = (int) ((screenHeight - 80) / tileMap[0].length);
         tileSizeX = (int) min(tileSizeX, tileSizeY);
@@ -66,10 +67,10 @@ public class PaintLevel {
         graphics.drawString("R - Restart", 3 * (screenWidth / 5), 50);
         graphics.drawString("Q - Quit", 4 * (screenWidth / 5), 50);
         // declaring 2D array tileMap to get from levelToPaint object by getter getTileMap()
-        Tile[][] tileMap = levelToPaint.getTileMap();
-        // iterate through each element of 2D array and adding texture to graphics object depending on tile type
+        Floor[][] tileMap = levelToPaint.getTileMap();
+        // iterate through each element of 2D array and adding texture to graphics object depending on Floor type
         for (int i = 0; i < tileMap.length; i++) {
-            Tile[] tileRow = tileMap[i];
+            Floor[] tileRow = tileMap[i];
             for (int j = 0; j < tileRow.length; j++) {
 
                 switch (tileRow[j].getTileType()) {

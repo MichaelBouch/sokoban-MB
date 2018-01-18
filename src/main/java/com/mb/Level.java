@@ -1,17 +1,18 @@
 package com.mb;
 
-import com.mb.Coord;
-import com.mb.Tile;
-import static com.mb.Tile.WALL;
-import static com.mb.Tile.BOX;
-import static com.mb.Tile.SOCKET;
-import static com.mb.Tile.PLAYER;
-import static com.mb.Tile.FLOOR;
+import com.mb.tiles.Box;
+import com.mb.tiles.Floor;
+import static com.mb.tiles.Floor.BOX;
+import static com.mb.tiles.Floor.FLOOR;
+import static com.mb.tiles.Floor.PLAYER;
+import static com.mb.tiles.Floor.SOCKET;
+import static com.mb.tiles.Floor.WALL;
+import com.mb.tiles.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// class level functions:  load nth level from txt files and creates 2D array of Tile type elements
-public class Level extends Coord{
+// class level functions:  load nth level from txt files and creates 2D array of Floor type elements
+public class Level extends Coord {
 
     private int levelWidth = 0;
     private int levelHeight = 0;
@@ -20,14 +21,14 @@ public class Level extends Coord{
     private int playerY;
     private Coord coord;
     // declaration 
-    private Tile[][] tileMap;
+    private Floor[][] tileMap;
 
-    // method returns 2D array of Tile type elements
-    public Tile[][] getTileMap() {
+    // method returns 2D array of Floor type elements
+    public Floor[][] getTileMap() {
         return tileMap;
     }
 
-    // method creates 2D array of Tile type elements based on information from loaded txt file
+    // method creates 2D array of Floor type elements based on information from loaded txt file
     // file number passed by method parameter
     public void createLevelFromFile(int levelNumberToLoad) {
 
@@ -44,37 +45,37 @@ public class Level extends Coord{
         levelWidth = listOfStrings.get(0).length();
         levelHeight = listOfStrings.size();
         System.out.println("levelWidth: " + levelWidth + " levelHeight: " + levelHeight);
-        // 2D array of Tile type elements is created
-        Tile[][] tempLevel = new Tile[levelWidth][levelHeight];
-        // each element of the 2D array is filled with Tile type object according to file characters (X or " " or . or @ or *)
+        // 2D array of Floor type elements is created
+        Floor[][] tempLevel = new Floor[levelWidth][levelHeight];
+        // each element of the 2D array is filled with Floor type object according to file characters (X or " " or . or @ or *)
         for (int nLine = 0; nLine < levelHeight; nLine++) {
             String tempString = listOfStrings.get(nLine);
 
             for (int nCharacter = 0; nCharacter < levelWidth; nCharacter++) {
                 switch (tempString.charAt(nCharacter)) {
                     case 'X':
-                        tempLevel[nCharacter][nLine] = new Tile(WALL);
+                        tempLevel[nCharacter][nLine] = new Floor(WALL);
                         break;
                     case ' ':
-                        tempLevel[nCharacter][nLine] = new Tile(FLOOR);
+                        tempLevel[nCharacter][nLine] = new Floor(FLOOR);
                         break;
                     case '.':
-                        tempLevel[nCharacter][nLine] = new Tile(SOCKET);
+                        tempLevel[nCharacter][nLine] = new Floor(SOCKET);
                         break;
                     case '@':
-                        tempLevel[nCharacter][nLine] = new Tile(FLOOR);
-                        tempLevel[nCharacter][nLine].setMovable(new Tile(PLAYER));
+                        tempLevel[nCharacter][nLine] = new Floor(FLOOR);
+                        tempLevel[nCharacter][nLine].setMovable(new Player(PLAYER));
 //                        Coord coord = new Coord(nCharacter,nLine);
                         playerX = nCharacter;
                         playerY = nLine;
                         break;
                     case '*':
-                        tempLevel[nCharacter][nLine] = new Tile(FLOOR);
-                        tempLevel[nCharacter][nLine].setMovable(new Tile(BOX));
+                        tempLevel[nCharacter][nLine] = new Floor(FLOOR);
+                        tempLevel[nCharacter][nLine].setMovable(new Box(BOX));
                         break;
                     default:
                         System.out.println("invalid flag\n");
-                        tempLevel[nCharacter][nLine] = new Tile(WALL);
+                        tempLevel[nCharacter][nLine] = new Floor(WALL);
                 }
             }
         }
@@ -92,10 +93,10 @@ public class Level extends Coord{
                 && ((tileMap[playerX][playerY - 2].getTileType() == FLOOR)
                 || ((tileMap[playerX][playerY - 2].getTileType() == SOCKET)
                 && (tileMap[playerX][playerY - 2].getTileType() != WALL)))) {
-            //  then box is "shifted": Tile object in 2D array are copied
+            //  then box is "shifted": Floor object in 2D array are copied
             tileMap[playerX][playerY - 2].setMovable(tileMap[playerX][playerY - 1].getMovable());
             tileMap[playerX][playerY - 1].setMovable(tileMap[playerX][playerY].getMovable());
-            // previous position of player "movable" Tile is erased (null)
+            // previous position of player "movable" Floor is erased (null)
             tileMap[playerX][playerY].setMovable(null);
             playerY--;
             // when player moved method returns true
@@ -107,7 +108,7 @@ public class Level extends Coord{
                     || (tileMap[playerX][playerY - 1].getTileType() == SOCKET))) {
                 //  player object copied imovement
                 tileMap[playerX][playerY - 1].setMovable(tileMap[playerX][playerY].getMovable());
-                // previous position of player "movable" Tile is erased (null)
+                // previous position of player "movable" Floor is erased (null)
                 tileMap[playerX][playerY].setMovable(null);
                 playerY--;
                 // when player moved method returns true
@@ -125,10 +126,10 @@ public class Level extends Coord{
                 && ((tileMap[playerX][playerY + 2].getTileType() == FLOOR)
                 || ((tileMap[playerX][playerY + 2].getTileType() == SOCKET)
                 && (tileMap[playerX][playerY + 2].getTileType() != WALL)))) {
-            //  then box is "shifted": Tile object in 2D array are copied
+            //  then box is "shifted": Floor object in 2D array are copied
             tileMap[playerX][playerY + 2].setMovable(tileMap[playerX][playerY + 1].getMovable());
             tileMap[playerX][playerY + 1].setMovable(tileMap[playerX][playerY].getMovable());
-            // previous position of player "movable" Tile is erased (null)
+            // previous position of player "movable" Floor is erased (null)
             tileMap[playerX][playerY].setMovable(null);
             playerY++;
             // when player moved method returns true
@@ -138,7 +139,7 @@ public class Level extends Coord{
             if ((tileMap[playerX][playerY + 1].getMovable() == null)
                     && ((tileMap[playerX][playerY + 1].getTileType() == FLOOR)
                     || (tileMap[playerX][playerY + 1].getTileType() == SOCKET))) {
-                // previous position of player "movable" Tile is erased (null)
+                // previous position of player "movable" Floor is erased (null)
                 tileMap[playerX][playerY + 1].setMovable(tileMap[playerX][playerY].getMovable());
                 tileMap[playerX][playerY].setMovable(null);
                 playerY++;
@@ -157,10 +158,10 @@ public class Level extends Coord{
                 && ((tileMap[playerX + 2][playerY].getTileType() == FLOOR)
                 || ((tileMap[playerX + 2][playerY].getTileType() == SOCKET)
                 && (tileMap[playerX + 2][playerY].getTileType() != WALL)))) {
-            //  then box is "shifted": Tile object in 2D array are copied
+            //  then box is "shifted": Floor object in 2D array are copied
             tileMap[playerX + 2][playerY].setMovable(tileMap[playerX + 1][playerY].getMovable());
             tileMap[playerX + 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
-            // previous position of player "movable" Tile is erased (null)
+            // previous position of player "movable" Floor is erased (null)
             tileMap[playerX][playerY].setMovable(null);
             playerX++;
             // when player moved method returns true
@@ -189,10 +190,10 @@ public class Level extends Coord{
                 && ((tileMap[playerX - 2][playerY].getTileType() == FLOOR)
                 || ((tileMap[playerX - 2][playerY].getTileType() == SOCKET)
                 && (tileMap[playerX - 2][playerY].getTileType() != WALL)))) {
-            //  then box is "shifted": Tile object in 2D array are copied
+            //  then box is "shifted": Floor object in 2D array are copied
             tileMap[playerX - 2][playerY].setMovable(tileMap[playerX - 1][playerY].getMovable());
             tileMap[playerX - 1][playerY].setMovable(tileMap[playerX][playerY].getMovable());
-            // previous position of player "movable" Tile is erased (null)
+            // previous position of player "movable" Floor is erased (null)
             tileMap[playerX][playerY].setMovable(null);
             playerX--;
             // when player moved method returns true
@@ -216,8 +217,8 @@ public class Level extends Coord{
     // method check every element of 2D Tiles objects and if any SOCKET DOES NOT contain BOX then method returns FALSE 
     // if ALL sockets contains BOX then method returns true
     public boolean isLevelFinished() {
-        for (Tile[] arrayElement : tileMap) {
-            for (Tile element : arrayElement) {
+        for (Floor[] arrayElement : tileMap) {
+            for (Floor element : arrayElement) {
                 if (element.getTileType() == SOCKET
                         && (element.getMovable() == null || element.getMovable().getTileType() != BOX)) {
                     return false;

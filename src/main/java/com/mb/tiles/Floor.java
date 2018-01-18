@@ -1,6 +1,7 @@
 package com.mb.tiles;
 
 public class Floor {
+
     // variables available in whole program to define type of tiles
     public static final int FLOOR = 0;
     public static final int WALL = 1;
@@ -12,7 +13,10 @@ public class Floor {
 
     private int tileType;
 
-     
+    public Floor(int tileType) {
+        this.tileType = tileType;
+    }
+
     public Box getMovable() {
         return movable;
     }
@@ -28,8 +32,6 @@ public class Floor {
     public void setTileType(int tileType) {
         this.tileType = tileType;
     }
-
-    
 
     boolean isEmpty() {
         if (movable == null) {
