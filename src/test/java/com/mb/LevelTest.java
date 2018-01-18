@@ -48,7 +48,7 @@ public class LevelTest {
     }
 
     //   test of isLevelFinished method if player can move right twice then isLevelFinished 
-    //  should return true value - level finished
+    //  should  return true value - level finished
     @Test
     public void moveRightShoulFinishLevelTest() {
         Level testLevelObject = new Level();
