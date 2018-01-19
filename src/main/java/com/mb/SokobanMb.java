@@ -25,13 +25,13 @@ public class SokobanMb extends JFrame {
     //   method initializeGame sta
     public void initializeGame() {
         // setting JFrame bounds
-        setBounds(0, 0, 1200, 850);
+        setBounds(0, 0, 1550, 850);
         // setts JFrame visible
         setVisible(true);
         // creates object from Game() class
         game = new Game();
         // calls loadLevel from game object to load first level with given screen size
-        game.loadLevel(1, 1200, 850);
+        game.loadLevel(1, 1550, 850);
         // calls startKeyboardHandl method to start keyboard manager
         game.startKeyboardHandl();
         // redraws (displays) level and top menu before any key is pressed

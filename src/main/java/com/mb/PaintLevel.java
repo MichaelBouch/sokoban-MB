@@ -1,11 +1,6 @@
 package com.mb;
 
 import com.mb.tiles.Floor;
-import static com.mb.tiles.Floor.BOX;
-import static com.mb.tiles.Floor.FLOOR;
-import static com.mb.tiles.Floor.PLAYER;
-import static com.mb.tiles.Floor.SOCKET;
-import static com.mb.tiles.Floor.WALL;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -30,7 +25,7 @@ public class PaintLevel {
     private BufferedImage texturePlayer;
     private BufferedImage textureFloor;
     private BufferedImage textureSocket;
-    private BufferedImage screenBuffer = new BufferedImage(1200, 850, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage screenBuffer = new BufferedImage(1550, 850, BufferedImage.TYPE_INT_RGB);
 
     // constructor receives 2D array levelToPaint object and screen sizes as parameters
     public PaintLevel(Level levelToPaint, int screenWidth, int screenHeight) {
@@ -73,29 +68,33 @@ public class PaintLevel {
             Floor[] tileRow = tileMap[i];
             for (int j = 0; j < tileRow.length; j++) {
 
-                switch (tileRow[j].getTileType()) {
-                    case FLOOR:
+//                switch (tileRow[j].getTileType()) {
+                switch (tileRow[j].getClass().getSimpleName()) {
+                    case "Floor":
                         drawTile(graphics, textureFloor, i, j);
                         break;
-                    case WALL:
+                    case "Wall":
                         drawTile(graphics, textureWall, i, j);
                         break;
-                    case SOCKET:
+                    case "Socket":
                         drawTile(graphics, textureSocket, i, j);
+                System.out.println(tileRow[j].getClass().getSimpleName());
                         break;
                     default:
                 }
+//                System.out.println(tileRow[j].getClass().getCanonicalName());
+                
                 //   when object of tileMap is Movable (Player or Box) 
                 //   then type of movable object is retrieved by getter getMovable() from tileRow object
                 //   depending of moveble Player or Box adequate texture is applied
                 if (tileRow[j].getMovable() != null) {
-                    switch (tileRow[j].getMovable().getTileType()) {
-                        case PLAYER:
+                    switch (tileRow[j].getMovable().getClass().getSimpleName()) {
+                        case "Player":
                             graphics.drawImage(texturePlayer,
                                     i * tileSizeX + xRatioOffset + 1, j * tileSizeX + yRatioOffset + 1,
                                     tileSizeX - 2, tileSizeX - 2, null);
                             break;
-                        case BOX:
+                        case "Box":
                             graphics.drawImage(textureBox,
                                     i * tileSizeX + xRatioOffset, j * tileSizeX + yRatioOffset,
                                     tileSizeX - 1, tileSizeX - 1, null);
@@ -129,6 +128,6 @@ public class PaintLevel {
         textureBox = ImageIO.read(getClass().getResource("/box1.png"));
         texturePlayer = ImageIO.read(getClass().getResource("/player6.png"));
         textureFloor = ImageIO.read(getClass().getResource("/floor1.png"));
-        textureSocket = ImageIO.read(getClass().getResource("/floor1_socket3.png"));
+        textureSocket = ImageIO.read(getClass().getResource("/floor1_socket4.png"));
     }
 }

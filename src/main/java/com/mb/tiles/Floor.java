@@ -3,17 +3,12 @@ package com.mb.tiles;
 public class Floor {
 
     // variables available in whole program to define type of tiles
-    public static final int FLOOR = 0;
-    public static final int WALL = 1;
-    public static final int BOX = 2;
-    public static final int PLAYER = 3;
-    public static final int SOCKET = 4;
     private Box movable;
 
     private int tileType;
 
-    public Floor(int tileType) {
-        this.tileType = tileType;
+    public Floor() {
+
     }
 
     public Box getMovable() {
@@ -34,11 +29,6 @@ public class Floor {
 
     public boolean isEmpty() {
         System.out.println("tekstA " + getClass().getCanonicalName());
-
-//        if (movable == null) {
-//            return true;
-//        }
-//        return false;
         return movable == null;
     }
 

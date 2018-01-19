@@ -2,12 +2,8 @@ package com.mb;
 
 import com.mb.tiles.Box;
 import com.mb.tiles.Floor;
-import static com.mb.tiles.Floor.BOX;
-import static com.mb.tiles.Floor.FLOOR;
-import static com.mb.tiles.Floor.PLAYER;
-import static com.mb.tiles.Floor.SOCKET;
-import static com.mb.tiles.Floor.WALL;
 import com.mb.tiles.Player;
+import com.mb.tiles.Socket;
 import com.mb.tiles.Wall;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -33,7 +29,7 @@ public class Level extends Coord {
     // file number passed by method parameter
     public void createLevelFromFile(int levelNumberToLoad) {
 
-        // file level?.txt leaded and divided by lines  (lines) stored in ArrayList lines
+        // file level?.txt leaded and divided by lines  (listOfStrings) stored in ArrayList lines
         ArrayList<String> listOfStrings = new ArrayList<>();
         Scanner loadedFile = new Scanner(Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt"));
         // level Width and  level Height is defined by length of string and number of strings
@@ -55,28 +51,28 @@ public class Level extends Coord {
             for (int nCharacter = 0; nCharacter < levelWidth; nCharacter++) {
                 switch (tempString.charAt(nCharacter)) {
                     case 'X':
-                        tempLevel[nCharacter][nLine] = new Wall(WALL);
+                        tempLevel[nCharacter][nLine] = new Wall();
                         break;
                     case ' ':
-                        tempLevel[nCharacter][nLine] = new Floor(FLOOR);
+                        tempLevel[nCharacter][nLine] = new Floor();
                         break;
                     case '.':
-                        tempLevel[nCharacter][nLine] = new Floor(SOCKET);
+                        tempLevel[nCharacter][nLine] = new Socket();
                         break;
                     case '@':
-                        tempLevel[nCharacter][nLine] = new Floor(FLOOR);
-                        tempLevel[nCharacter][nLine].setMovable(new Player(PLAYER));
+                        tempLevel[nCharacter][nLine] = new Floor();
+                        tempLevel[nCharacter][nLine].setMovable(new Player());
 //                        Coord coord = new Coord(nCharacter,nLine);
                         playerX = nCharacter;
                         playerY = nLine;
                         break;
                     case '*':
-                        tempLevel[nCharacter][nLine] = new Floor(FLOOR);
-                        tempLevel[nCharacter][nLine].setMovable(new Box(BOX));
+                        tempLevel[nCharacter][nLine] = new Floor();
+                        tempLevel[nCharacter][nLine].setMovable(new Box());
                         break;
                     default:
                         System.out.println("invalid flag\n");
-                        tempLevel[nCharacter][nLine] = new Floor(WALL);
+                        tempLevel[nCharacter][nLine] = new Floor();
                 }
             }
         }
@@ -118,8 +114,8 @@ public class Level extends Coord {
     public boolean isLevelFinished() {
         for (Floor[] arrayElement : tileMap) {
             for (Floor element : arrayElement) {
-                if (element.getTileType() == SOCKET
-                        && (element.getMovable() == null || element.getMovable().getTileType() != BOX)) {
+                if ("Socket".equals(element.getClass().getSimpleName())
+                        && (element.getMovable() == null || !"Box".equals(element.getMovable().getClass().getSimpleName()))) {
                     return false;
                 }
             }
