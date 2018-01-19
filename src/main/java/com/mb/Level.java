@@ -23,6 +23,7 @@ public class Level extends Coord {
     public Player player;
     // declaration 
     private Floor[][] tileMap;
+    private TileLoader tileloader = new TileLoader();
 
     // method returns 2D array of Floor type elements
     public Floor[][] getTileMap() {

@@ -21,11 +21,12 @@ public class Game {
     // declaration of paintLevel object
     private PaintLevel paintLevel;
     private boolean initalized;
-    private TileLoader tileLoader = new TileLoader();
+    private TileLoader tileLoader;
     
     // Game class constructor
     public Game() {
         initalized = false;
+       tileLoader = new TileLoader(); 
     }
 
     
