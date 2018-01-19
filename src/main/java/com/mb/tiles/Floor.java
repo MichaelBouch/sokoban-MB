@@ -1,14 +1,17 @@
 package com.mb.tiles;
 
-public class Floor {
+import com.mb.TileLoader;
+import java.awt.image.BufferedImage;
+
+public class Floor extends TileLoader {
 
     // variables available in whole program to define type of tiles
     private Box movable;
-
+    private BufferedImage texture;
     private int tileType;
 
-    public Floor() {
-
+    public Floor(BufferedImage texture) {
+        this.texture = texture;
     }
 
     public Box getMovable() {
@@ -34,6 +37,15 @@ public class Floor {
 
     public boolean hasBox() {
         return movable != null;
+
+    }
+
+    public BufferedImage getTexture() {
+        return texture;
+    }
+
+    public void setTexture(BufferedImage textureFloor) {
+        this.texture = textureFloor;
     }
 
 }

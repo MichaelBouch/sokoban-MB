@@ -16,7 +16,11 @@ public class Level extends Coord {
     // playerX/Y  stores player coordinates as long as object level exists
     private int playerX;
     private int playerY;
-    private Coord coord;
+    public Floor floor;
+    public Wall wall;
+    public Socket socket;
+    public Box box;
+    public Player player;
     // declaration 
     private Floor[][] tileMap;
 
@@ -51,36 +55,34 @@ public class Level extends Coord {
             for (int nCharacter = 0; nCharacter < levelWidth; nCharacter++) {
                 switch (tempString.charAt(nCharacter)) {
                     case 'X':
-                        tempLevel[nCharacter][nLine] = new Wall();
+                        tempLevel[nCharacter][nLine] = wall;
                         break;
                     case ' ':
-                        tempLevel[nCharacter][nLine] = new Floor();
+                        tempLevel[nCharacter][nLine] = floor;
                         break;
                     case '.':
-                        tempLevel[nCharacter][nLine] = new Socket();
+                        tempLevel[nCharacter][nLine] = socket;
                         break;
                     case '@':
-                        tempLevel[nCharacter][nLine] = new Floor();
-                        tempLevel[nCharacter][nLine].setMovable(new Player());
+                        tempLevel[nCharacter][nLine] = floor;
+                        tempLevel[nCharacter][nLine].setMovable(player);
 //                        Coord coord = new Coord(nCharacter,nLine);
                         playerX = nCharacter;
                         playerY = nLine;
                         break;
                     case '*':
-                        tempLevel[nCharacter][nLine] = new Floor();
-                        tempLevel[nCharacter][nLine].setMovable(new Box());
+                        tempLevel[nCharacter][nLine] = floor;
+                        tempLevel[nCharacter][nLine].setMovable(box);
                         break;
                     default:
                         System.out.println("invalid flag\n");
-                        tempLevel[nCharacter][nLine] = new Floor();
+                        tempLevel[nCharacter][nLine] = floor;
                 }
             }
         }
         // tileMap object point to tempLevel memory address
         tileMap = tempLevel;
     }
-
-
 
     // methods validating if player can move and if it's possible then shifts player position (add or decrease playerPosition by 1)
     // methods returns true if player could move, if not method returns false
@@ -107,7 +109,7 @@ public class Level extends Coord {
             return true;
         }
         return false;
-    } 
+    }
 
     // method check every element of 2D Tiles objects and if any SOCKET DOES NOT contain BOX then method returns FALSE 
     // if ALL sockets contains BOX then method returns true

@@ -21,12 +21,15 @@ public class Game {
     // declaration of paintLevel object
     private PaintLevel paintLevel;
     private boolean initalized;
-
+    private TileLoader tileLoader = new TileLoader();
+    
     // Game class constructor
     public Game() {
         initalized = false;
     }
 
+    
+    
     // drawing level including top indicators (calls paintLevel object)
     public void drawLevel(Graphics graphics) {
         paintLevel.draw(graphics, movesCounter, currentLevel);
@@ -52,13 +55,13 @@ public class Game {
         level.createLevelFromFile(currentLevel);
         paintLevel = new PaintLevel(level, width, height);
         // loading textures with possible exception when a texture does not exists
-        try {
-            paintLevel.loadTextures(currentLevel);
-        } catch (IllegalArgumentException | IOException ex) {
-            System.out.println("Cannot load All textures   " + ex);
-            //  prevalidation 
-            return false;
-        }
+//        try {
+//            paintLevel.loadTextures(currentLevel);
+//        } catch (IllegalArgumentException | IOException ex) {
+//            System.out.println("Cannot load All textures   " + ex);
+//            //  prevalidation 
+//            return false;
+//        }
         initalized = true;
         return true;
     }

@@ -55,7 +55,7 @@ public class PaintLevel {
         graphics.fillRect(0, 0, screenWidth, screenHeight);
         graphics.setFont(new Font("Arial", Font.BOLD, 25));
         graphics.setColor(Color.RED);
-        graphics.drawString("Level: " + currentLevel +" /5", (screenWidth / 5), 50);
+        graphics.drawString("Level: " + currentLevel + " /5", (screenWidth / 5), 50);
         graphics.setColor(Color.ORANGE);
         graphics.drawString("Moves: " + counter, 2 * (screenWidth / 5), 50);
         graphics.setColor(Color.lightGray);
@@ -78,12 +78,12 @@ public class PaintLevel {
                         break;
                     case "Socket":
                         drawTile(graphics, textureSocket, i, j);
-                System.out.println(tileRow[j].getClass().getSimpleName());
+                        System.out.println(tileRow[j].getClass().getSimpleName());
                         break;
                     default:
                 }
 //                System.out.println(tileRow[j].getClass().getCanonicalName());
-                
+
                 //   when object of tileMap is Movable (Player or Box) 
                 //   then type of movable object is retrieved by getter getMovable() from tileRow object
                 //   depending of moveble Player or Box adequate texture is applied
@@ -103,11 +103,11 @@ public class PaintLevel {
                 }
             }
         }
-        
+
         //  rewrite graphics (memory area) to window (video memory) (component)
         graphicsComp.drawImage(screenBuffer, 0, 0, null);
     }
-    
+
     // method draws tiles - places a texture in certain position of graphics object
     private void drawTile(Graphics graphics, BufferedImage texture, int i, int j) {
         graphics.drawImage(texture,
@@ -119,15 +119,15 @@ public class PaintLevel {
     //  method load textures 
     //  if texture cannot be found - throws exception 
     //  Textures from Wolfenstain3D 1992, Copyrights: Developer(s) id Software; Publisher(s) Apogee Software; FormGen (Spear of Destiny); Director(s) Tom Hall; Designer(s) John Romero Tom Hall; Programmer(s) John Carmack  John Romero; Artist(s) Adrian Carmack; Composer(s) Robert Prince Series Wolfenstein; Platform(s) MS-DOS[show]; Release May 5, 1992
-    public void loadTextures(int currentLevel) throws IOException {
-        if (currentLevel == 1) {
-            textureWall = ImageIO.read(getClass().getResource("/wall_steel.png"));
-        } else {
-            textureWall = ImageIO.read(getClass().getResource("/wall_stone.png"));
-        }
-        textureBox = ImageIO.read(getClass().getResource("/box1.png"));
-        texturePlayer = ImageIO.read(getClass().getResource("/player6.png"));
-        textureFloor = ImageIO.read(getClass().getResource("/floor1.png"));
-        textureSocket = ImageIO.read(getClass().getResource("/floor1_socket4.png"));
-    }
+//    public void loadTextures(int currentLevel) throws IOException {
+//        if (currentLevel == 1) {
+//            textureWall = ImageIO.read(getClass().getResource("/wall_steel.png"));
+//        } else {
+//            textureWall = ImageIO.read(getClass().getResource("/wall_stone.png"));
+//        }
+//        textureBox = ImageIO.read(getClass().getResource("/box1.png"));
+//        texturePlayer = ImageIO.read(getClass().getResource("/player6.png"));
+//        textureFloor = ImageIO.read(getClass().getResource("/floor1.png"));
+//        textureSocket = ImageIO.read(getClass().getResource("/floor1_socket4.png"));
+//    }
 }

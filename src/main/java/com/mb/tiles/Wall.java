@@ -1,8 +1,13 @@
 package com.mb.tiles;
 
+import java.awt.image.BufferedImage;
+
 public class Wall extends Floor {
 
-    public Wall() {
+    private BufferedImage texture;
+
+    public Wall(BufferedImage texture) {
+        this.texture = texture;
       
     }
 
