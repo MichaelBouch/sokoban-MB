@@ -7,6 +7,4 @@ public class Socket extends Floor {
     public Socket(BufferedImage texture) {
         super(texture);
     }
-
-   
 }

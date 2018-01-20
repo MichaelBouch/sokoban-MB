@@ -21,12 +21,10 @@ public class Game {
     // declaration of paintLevel object
     private PaintLevel paintLevel;
     private boolean initalized;
-    private TextureLoader tileLoader;
 
     // Game class constructor
     public Game() {
         initalized = false;
-        tileLoader = new TextureLoader(currentLevel);
     }
 
     // drawing level including top indicators (calls paintLevel object)

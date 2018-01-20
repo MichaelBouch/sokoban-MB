@@ -56,48 +56,23 @@ public class PaintLevel {
         graphics.drawString("Q - Quit", 4 * (screenWidth / 5), 50);
         // declaring 2D array tileMap to get from levelToPaint object by getter getTileMap()
         Floor[][] tileMap = levelToPaint.getTileMap();
-        // iterate through each element of 2D array and adding texture to graphics object depending on Floor type
+        // iterate through each element of 2D array get texture from each tile to graphics object depending
         for (int i = 0; i < tileMap.length; i++) {
             Floor[] tileRow = tileMap[i];
             for (int j = 0; j < tileRow.length; j++) {
-
-//                switch (tileRow[j].getTileType()) {
-                switch (tileRow[j].getClass().getSimpleName()) {
-                    case "Floor":
-                        drawTile(graphics, tileRow[j].getTexture(), i, j);
-                        break;
-                    case "Wall":
-                        drawTile(graphics, tileRow[j].getTexture(), i, j);
-                        break;
-                    case "Socket":
-                        drawTile(graphics, tileRow[j].getTexture(), i, j);
-                       // System.out.println(tileRow[j].getClass().getSimpleName());
-                        break;
-                    default:
-                }
-//                System.out.println(tileRow[j].getClass().getCanonicalName());
-
+                drawTile(graphics, tileRow[j].getTexture(), i, j);
                 //   when object of tileMap is Movable (Player or Box) 
                 //   then type of movable object is retrieved by getter getMovable() from tileRow object
                 //   depending of moveble Player or Box adequate texture is applied
                 if (tileRow[j].getMovable() != null) {
-                    switch (tileRow[j].getMovable().getClass().getSimpleName()) {
-                        case "Player":
-                            graphics.drawImage(tileRow[j].getTexture(),
-                                    i * tileSizeX + xRatioOffset + 1, j * tileSizeX + yRatioOffset + 1,
-                                    tileSizeX - 2, tileSizeX - 2, null);
-                            break;
-                        case "Box":
-                            graphics.drawImage(tileRow[j].getTexture(),
-                                    i * tileSizeX + xRatioOffset, j * tileSizeX + yRatioOffset,
-                                    tileSizeX - 1, tileSizeX - 1, null);
-                            break;
-                    }
+                    graphics.drawImage(tileRow[j].getMovable().getTexture(),
+                            i * tileSizeX + xRatioOffset + 1, j * tileSizeX + yRatioOffset + 1,
+                            tileSizeX - 2, tileSizeX - 2, null);
                 }
             }
         }
 
-        //  rewrite graphics (memory area) to window (video memory) (component)
+//  rewrite graphics (memory area) to window (video memory) (component)
         graphicsComp.drawImage(screenBuffer, 0, 0, null);
     }
 

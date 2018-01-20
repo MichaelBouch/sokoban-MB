@@ -17,13 +17,13 @@ public class Level {
     // playerX/Y  stores player coordinates as long as object level exists
     private int playerX;
     private int playerY;
-   
+
     // declaration 
     private Floor[][] tileMap;
 
     // textureLoader object created to load textures
     private TextureLoader textureLoader;
-    
+
     // method returns 2D array of Floor type elements
     public Floor[][] getTileMap() {
         return tileMap;
@@ -31,7 +31,7 @@ public class Level {
 
     // method creates 2D array of Floor type elements based on information from loaded txt file
     // file number passed by method parameter
-    public void createLevelFromFile(int levelNumberToLoad)  {
+    public void createLevelFromFile(int levelNumberToLoad) {
         textureLoader = new TextureLoader(levelNumberToLoad);
         // file level?.txt leaded and divided by lines  (listOfStrings) stored in ArrayList lines
         ArrayList<String> listOfStrings = new ArrayList<>();
@@ -124,5 +124,4 @@ public class Level {
         }
         return true;
     }
-
 }
