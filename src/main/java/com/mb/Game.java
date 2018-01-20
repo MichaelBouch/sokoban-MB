@@ -21,16 +21,14 @@ public class Game {
     // declaration of paintLevel object
     private PaintLevel paintLevel;
     private boolean initalized;
-    private TileLoader tileLoader;
-    
+    private TextureLoader tileLoader;
+
     // Game class constructor
     public Game() {
         initalized = false;
-       tileLoader = new TileLoader(); 
+        tileLoader = new TextureLoader();
     }
 
-    
-    
     // drawing level including top indicators (calls paintLevel object)
     public void drawLevel(Graphics graphics) {
         paintLevel.draw(graphics, movesCounter, currentLevel);
@@ -102,27 +100,27 @@ public class Game {
             case KeyEvent.VK_LEFT:
                 // calls moveLeft() method of object level
                 // when methods returns true (player have moved) then movesCounter increased by 1
-                if (level.movePlayerBy(-1,0)) {
+                if (level.movePlayerBy(-1, 0)) {
                     movesCounter++;
-                return true;
+                    return true;
                 }
                 break;
             case KeyEvent.VK_UP:
-                if (level.movePlayerBy(0,-1)) {
+                if (level.movePlayerBy(0, -1)) {
                     movesCounter++;
-                return true;
+                    return true;
                 }
                 break;
             case KeyEvent.VK_RIGHT:
-                if (level.movePlayerBy(1,0)) {
+                if (level.movePlayerBy(1, 0)) {
                     movesCounter++;
-                return true;
+                    return true;
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                if (level.movePlayerBy(0,1)) {
+                if (level.movePlayerBy(0, 1)) {
                     movesCounter++;
-                return true;
+                    return true;
                 }
                 break;
             case KeyEvent.VK_Q:

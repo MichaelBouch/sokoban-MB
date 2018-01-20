@@ -8,11 +8,11 @@ public class Wall extends Floor {
 
     public Wall(BufferedImage texture) {
         this.texture = texture;
-      
+
     }
 
     @Override
-   public boolean isEmpty() {
+    public boolean isEmpty() {
         System.out.println("tekst " + getClass().getCanonicalName());
         return false;
     }

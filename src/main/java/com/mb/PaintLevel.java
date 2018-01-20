@@ -20,11 +20,6 @@ public class PaintLevel {
     private int yRatioOffset = 0;
     private int tileSizeX, tileSizeY;
 
-    private BufferedImage textureWall;
-    private BufferedImage textureBox;
-    private BufferedImage texturePlayer;
-    private BufferedImage textureFloor;
-    private BufferedImage textureSocket;
     private BufferedImage screenBuffer = new BufferedImage(1550, 850, BufferedImage.TYPE_INT_RGB);
 
     // constructor receives 2D array levelToPaint object and screen sizes as parameters
@@ -71,13 +66,13 @@ public class PaintLevel {
 //                switch (tileRow[j].getTileType()) {
                 switch (tileRow[j].getClass().getSimpleName()) {
                     case "Floor":
-                        drawTile(graphics, textureFloor, i, j);
+                        drawTile(graphics, tileRow[j].getFloorTexture(), i, j);
                         break;
                     case "Wall":
-                        drawTile(graphics, textureWall, i, j);
+                        drawTile(graphics, tileRow[j].getWallTexture(), i, j);
                         break;
                     case "Socket":
-                        drawTile(graphics, textureSocket, i, j);
+                        drawTile(graphics, tileRow[j].getSocketTexture(), i, j);
                         System.out.println(tileRow[j].getClass().getSimpleName());
                         break;
                     default:
@@ -90,12 +85,12 @@ public class PaintLevel {
                 if (tileRow[j].getMovable() != null) {
                     switch (tileRow[j].getMovable().getClass().getSimpleName()) {
                         case "Player":
-                            graphics.drawImage(texturePlayer,
+                            graphics.drawImage(tileRow[j].getPlayerTexture(),
                                     i * tileSizeX + xRatioOffset + 1, j * tileSizeX + yRatioOffset + 1,
                                     tileSizeX - 2, tileSizeX - 2, null);
                             break;
                         case "Box":
-                            graphics.drawImage(textureBox,
+                            graphics.drawImage(tileRow[j].getBoxTexture(),
                                     i * tileSizeX + xRatioOffset, j * tileSizeX + yRatioOffset,
                                     tileSizeX - 1, tileSizeX - 1, null);
                             break;
