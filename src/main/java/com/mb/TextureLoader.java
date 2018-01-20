@@ -15,61 +15,63 @@ import javax.imageio.ImageIO;
  */
 public class TextureLoader {
 
-    private BufferedImage floorTexture;
-    private BufferedImage wallTexture;
-    private BufferedImage socketTexture;
-    private BufferedImage boxTexture;
-    private BufferedImage playerTexture;
+    private BufferedImage floor;
+    private BufferedImage wall;
+    private BufferedImage socket;
+    private BufferedImage box;
+    private BufferedImage player;
 
     public void loadTextures(int currentLevel) throws IOException {
         if (currentLevel == 1) {
-            wallTexture = (ImageIO.read(getClass().getResource("/wall_steel.png")));
+            wall = ImageIO.read(getClass().getResource("/wall_stone.png"));
         } else {
-            wallTexture = (ImageIO.read(getClass().getResource("/wall_stone.png")));
+            wall = ImageIO.read(getClass().getResource("/wall_steel.png"));
         }
-        boxTexture = (ImageIO.read(getClass().getResource("/box1.png")));
-        playerTexture = (ImageIO.read(getClass().getResource("/player6.png")));
-        floorTexture = (ImageIO.read(getClass().getResource("/floor1.png")));
-        socketTexture = (ImageIO.read(getClass().getResource("/floor1_socket4.png")));
+        box = ImageIO.read(getClass().getResource("/box1.png"));
+        player = ImageIO.read(getClass().getResource("/player6.png"));
+        floor = ImageIO.read(getClass().getResource("/floor1.png"));
+        socket = ImageIO.read(getClass().getResource("/floor1_socket4.png"));
     }
 
-    public BufferedImage getFloorTexture() {
-        return floorTexture;
+    public BufferedImage getFloor() {
+        return floor;
     }
 
-    public void setFloorTexture(BufferedImage floorTexture) {
-        this.floorTexture = floorTexture;
+    public void setFloor(BufferedImage floor) {
+        this.floor = floor;
     }
 
-    public BufferedImage getWallTexture() {
-        return wallTexture;
+    public BufferedImage getWall() {
+        return wall;
     }
 
-    public void setWallTexture(BufferedImage wallTexture) {
-        this.wallTexture = wallTexture;
+    public void setWall(BufferedImage wall) {
+        this.wall = wall;
     }
 
-    public BufferedImage getSocketTexture() {
-        return socketTexture;
+    public BufferedImage getSocket() {
+        return socket;
     }
 
-    public void setSocketTexture(BufferedImage socketTexture) {
-        this.socketTexture = socketTexture;
+    public void setSocket(BufferedImage socket) {
+        this.socket = socket;
     }
 
-    public BufferedImage getBoxTexture() {
-        return boxTexture;
+    public BufferedImage getBox() {
+        return box;
     }
 
-    public void setBoxTexture(BufferedImage boxTexture) {
-        this.boxTexture = boxTexture;
+    public void setBox(BufferedImage box) {
+        this.box = box;
     }
 
-    public BufferedImage getPlayerTexture() {
-        return playerTexture;
+    public BufferedImage getPlayer() {
+        return player;
     }
 
-    public void setPlayerTexture(BufferedImage playerTexture) {
-        this.playerTexture = playerTexture;
+    public void setPlayer(BufferedImage player) {
+        this.player = player;
     }
+
+
 }

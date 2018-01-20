@@ -4,12 +4,11 @@ import java.awt.image.BufferedImage;
 
 public class Wall extends Floor {
 
-    private BufferedImage texture;
-
     public Wall(BufferedImage texture) {
-        this.texture = texture;
-
+        super(texture);
     }
+
+
 
     @Override
     public boolean isEmpty() {

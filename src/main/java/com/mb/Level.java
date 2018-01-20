@@ -19,12 +19,9 @@ public class Level extends Coord {
    
     // declaration 
     private Floor[][] tileMap;
+
+    // textureLoader object created to load textures
     private TextureLoader textureLoader = new TextureLoader();
-//    private Floor floor;
-//    private Wall wall;
-//    private Box box;
-//    private Player player;
-//    private Socket socket;
     
     // method returns 2D array of Floor type elements
     public Floor[][] getTileMap() {
@@ -57,28 +54,28 @@ public class Level extends Coord {
             for (int nCharacter = 0; nCharacter < levelWidth; nCharacter++) {
                 switch (tempString.charAt(nCharacter)) {
                     case 'X':
-                        tempLevel[nCharacter][nLine] = new Wall(textureLoader.getWallTexture());
+                        tempLevel[nCharacter][nLine] = new Wall(textureLoader.getWall());
                         break;
                     case ' ':
-                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getFloorTexture());
+                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getFloor());
                         break;
                     case '.':
-                        tempLevel[nCharacter][nLine] = new Socket(textureLoader.getSocketTexture());
+                        tempLevel[nCharacter][nLine] = new Socket(textureLoader.getSocket());
                         break;
                     case '@':
-                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getPlayerTexture());
-                        tempLevel[nCharacter][nLine].setMovable(new Player(textureLoader.getPlayerTexture());
-//                        Coord coord = new Coord(nCharacter,nLine);
+                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getPlayer());
+                        tempLevel[nCharacter][nLine].setMovable(new Player(textureLoader.getPlayer()));
+                        // player coordinates setup
                         playerX = nCharacter;
                         playerY = nLine;
                         break;
                     case '*':
-                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getFloorTexture());
-                        tempLevel[nCharacter][nLine].setMovable(new Box(textureLoader.getBoxTexture()));
+                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getFloor());
+                        tempLevel[nCharacter][nLine].setMovable(new Box(textureLoader.getBox()));
                         break;
                     default:
                         System.out.println("invalid flag\n");
-                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getFloorTexture());
+                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getFloor());
                 }
             }
         }

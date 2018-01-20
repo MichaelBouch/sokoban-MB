@@ -5,9 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import static java.lang.Double.min;
-import javax.imageio.ImageIO;
 
 // PaintLevel class main functions: calculate size of tiles,  
 // load textures, displays tiles and top menu
@@ -66,14 +64,14 @@ public class PaintLevel {
 //                switch (tileRow[j].getTileType()) {
                 switch (tileRow[j].getClass().getSimpleName()) {
                     case "Floor":
-                        drawTile(graphics, tileRow[j].getFloorTexture(), i, j);
+                        drawTile(graphics, tileRow[j].getTexture(), i, j);
                         break;
                     case "Wall":
-                        drawTile(graphics, tileRow[j].getWallTexture(), i, j);
+                        drawTile(graphics, tileRow[j].getTexture(), i, j);
                         break;
                     case "Socket":
-                        drawTile(graphics, tileRow[j].getSocketTexture(), i, j);
-                        System.out.println(tileRow[j].getClass().getSimpleName());
+                        drawTile(graphics, tileRow[j].getTexture(), i, j);
+                       // System.out.println(tileRow[j].getClass().getSimpleName());
                         break;
                     default:
                 }
@@ -85,12 +83,12 @@ public class PaintLevel {
                 if (tileRow[j].getMovable() != null) {
                     switch (tileRow[j].getMovable().getClass().getSimpleName()) {
                         case "Player":
-                            graphics.drawImage(tileRow[j].getPlayerTexture(),
+                            graphics.drawImage(tileRow[j].getTexture(),
                                     i * tileSizeX + xRatioOffset + 1, j * tileSizeX + yRatioOffset + 1,
                                     tileSizeX - 2, tileSizeX - 2, null);
                             break;
                         case "Box":
-                            graphics.drawImage(tileRow[j].getBoxTexture(),
+                            graphics.drawImage(tileRow[j].getTexture(),
                                     i * tileSizeX + xRatioOffset, j * tileSizeX + yRatioOffset,
                                     tileSizeX - 1, tileSizeX - 1, null);
                             break;
@@ -110,19 +108,4 @@ public class PaintLevel {
                 j * tileSizeX + yRatioOffset,
                 tileSizeX, tileSizeX, null);
     }
-
-    //  method load textures 
-    //  if texture cannot be found - throws exception 
-    //  Textures from Wolfenstain3D 1992, Copyrights: Developer(s) id Software; Publisher(s) Apogee Software; FormGen (Spear of Destiny); Director(s) Tom Hall; Designer(s) John Romero Tom Hall; Programmer(s) John Carmack  John Romero; Artist(s) Adrian Carmack; Composer(s) Robert Prince Series Wolfenstein; Platform(s) MS-DOS[show]; Release May 5, 1992
-//    public void loadTextures(int currentLevel) throws IOException {
-//        if (currentLevel == 1) {
-//            textureWall = ImageIO.read(getClass().getResource("/wall_steel.png"));
-//        } else {
-//            textureWall = ImageIO.read(getClass().getResource("/wall_stone.png"));
-//        }
-//        textureBox = ImageIO.read(getClass().getResource("/box1.png"));
-//        texturePlayer = ImageIO.read(getClass().getResource("/player6.png"));
-//        textureFloor = ImageIO.read(getClass().getResource("/floor1.png"));
-//        textureSocket = ImageIO.read(getClass().getResource("/floor1_socket4.png"));
-//    }
 }

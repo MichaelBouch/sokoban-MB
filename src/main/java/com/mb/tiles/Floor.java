@@ -8,7 +8,6 @@ public class Floor extends TextureLoader {
     // variables available in whole program to define type of tiles
     private Box movable;
     private BufferedImage texture;
-    private int tileType;
 
     public Floor(BufferedImage texture) {
         this.texture = texture;
@@ -20,14 +19,6 @@ public class Floor extends TextureLoader {
 
     public void setMovable(Box movable) {
         this.movable = movable;
-    }
-
-    public int getTileType() {
-        return tileType;
-    }
-
-    public void setTileType(int tileType) {
-        this.tileType = tileType;
     }
 
     public boolean isEmpty() {

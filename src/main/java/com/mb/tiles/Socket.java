@@ -4,5 +4,9 @@ import java.awt.image.BufferedImage;
 
 public class Socket extends Floor {
 
+    public Socket(BufferedImage texture) {
+        super(texture);
+    }
+
    
 }
