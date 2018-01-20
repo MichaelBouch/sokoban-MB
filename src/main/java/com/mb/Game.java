@@ -26,7 +26,7 @@ public class Game {
     // Game class constructor
     public Game() {
         initalized = false;
-        tileLoader = new TextureLoader();
+        tileLoader = new TextureLoader(currentLevel);
     }
 
     // drawing level including top indicators (calls paintLevel object)
@@ -41,7 +41,7 @@ public class Game {
     }
 
     public boolean loadLevel(int levelNumber) {
-        return loadLevel(levelNumber, 1200, 850);
+        return loadLevel(levelNumber, 1550, 850);
     }
 
     public boolean loadLevel(int levelNumber, int width, int height) {

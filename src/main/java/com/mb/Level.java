@@ -5,11 +5,12 @@ import com.mb.tiles.Floor;
 import com.mb.tiles.Player;
 import com.mb.tiles.Socket;
 import com.mb.tiles.Wall;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 // class level functions:  load nth level from txt files and creates 2D array of Floor type elements
-public class Level extends Coord {
+public class Level {
 
     private int levelWidth = 0;
     private int levelHeight = 0;
@@ -21,7 +22,7 @@ public class Level extends Coord {
     private Floor[][] tileMap;
 
     // textureLoader object created to load textures
-    private TextureLoader textureLoader = new TextureLoader();
+    private TextureLoader textureLoader;
     
     // method returns 2D array of Floor type elements
     public Floor[][] getTileMap() {
@@ -30,8 +31,8 @@ public class Level extends Coord {
 
     // method creates 2D array of Floor type elements based on information from loaded txt file
     // file number passed by method parameter
-    public void createLevelFromFile(int levelNumberToLoad) {
-
+    public void createLevelFromFile(int levelNumberToLoad)  {
+        textureLoader = new TextureLoader(levelNumberToLoad);
         // file level?.txt leaded and divided by lines  (listOfStrings) stored in ArrayList lines
         ArrayList<String> listOfStrings = new ArrayList<>();
         Scanner loadedFile = new Scanner(Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt"));
@@ -63,9 +64,9 @@ public class Level extends Coord {
                         tempLevel[nCharacter][nLine] = new Socket(textureLoader.getSocket());
                         break;
                     case '@':
-                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getPlayer());
+                        tempLevel[nCharacter][nLine] = new Floor(textureLoader.getFloor());
                         tempLevel[nCharacter][nLine].setMovable(new Player(textureLoader.getPlayer()));
-                        // player coordinates setup
+                        // player coordinates assigned
                         playerX = nCharacter;
                         playerY = nLine;
                         break;

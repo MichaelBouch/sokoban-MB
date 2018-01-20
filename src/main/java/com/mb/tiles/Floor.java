@@ -3,7 +3,7 @@ package com.mb.tiles;
 import com.mb.TextureLoader;
 import java.awt.image.BufferedImage;
 
-public class Floor extends TextureLoader {
+public class Floor  {
 
     // variables available in whole program to define type of tiles
     private Box movable;
