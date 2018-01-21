@@ -4,13 +4,13 @@ import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 
 //  Game class methods does:
 //  Load levels (calls nethod createLevelFromFile())
 //  paints level: drawLevel method
 //  reads keyboard keys pressed: startKeyboardHandl dispatchKeyEvent methods
 public class Game {
+
 
     // stores number of moves in each level
     private int movesCounter;
@@ -21,7 +21,6 @@ public class Game {
     // declaration of paintLevel object
     private PaintLevel paintLevel;
     private boolean initalized;
-
     // Game class constructor
     public Game() {
         initalized = false;
@@ -39,7 +38,7 @@ public class Game {
     }
 
     public boolean loadLevel(int levelNumber) {
-        return loadLevel(levelNumber, 1550, 850);
+        return loadLevel(levelNumber);
     }
 
     public boolean loadLevel(int levelNumber, int width, int height) {
@@ -51,14 +50,6 @@ public class Game {
         // loading map from txt file number - currentLevel
         level.createLevelFromFile(currentLevel);
         paintLevel = new PaintLevel(level, width, height);
-        // loading textures with possible exception when a texture does not exists
-//        try {
-//            paintLevel.loadTextures(currentLevel);
-//        } catch (IllegalArgumentException | IOException ex) {
-//            System.out.println("Cannot load All textures   " + ex);
-//            //  prevalidation 
-//            return false;
-//        }
         initalized = true;
         return true;
     }
@@ -79,7 +70,6 @@ public class Game {
                 //   System.out.println("Got key = " + e.getKeyCode());
                 boolean gameStateChanged = handleKeyPress(e.getKeyCode());
                 if (gameStateChanged) {
-                    System.out.println("moves counter: " + movesCounter);
                     if (level.isLevelFinished()) {
                         loadLevel(currentLevel + 1);
                     }
@@ -137,5 +127,4 @@ public class Game {
     public boolean isInitalized() {
         return initalized;
     }
-
 }

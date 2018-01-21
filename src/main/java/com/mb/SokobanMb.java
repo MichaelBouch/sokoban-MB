@@ -11,6 +11,8 @@ public class SokobanMb extends JFrame {
 
     //   declaring game class
     private Game game;
+    public static final int screenWidth = 1550;
+    public static final int screenHeight = 850;
 
     //  overrides JFrame paint method
     @Override
@@ -25,13 +27,13 @@ public class SokobanMb extends JFrame {
     //   method initializeGame sta
     public void initializeGame() {
         // setting JFrame bounds
-        setBounds(0, 0, 1550, 850);
+        setBounds(0, 0, screenWidth, screenHeight);
         // setts JFrame visible
         setVisible(true);
         // creates object from Game() class
         game = new Game();
         // calls loadLevel from game object to load first level with given screen size
-        game.loadLevel(1, 1550, 850);
+        game.loadLevel(1, screenWidth, screenHeight);
         
         // calls startKeyboardHandl method to start keyboard manager
         game.startKeyboardHandl();

@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mb;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-/**
- *
- * @author user
- */
-//  class loading textures and returns BufferedImage when getter used 
+//  loading 5 textures with possible exception when a texture does not exists
 public class TextureLoader {
 
     private BufferedImage floor;

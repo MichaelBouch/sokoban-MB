@@ -4,12 +4,18 @@ import com.mb.tiles.Floor;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import static java.lang.Double.min;
+import java.time.Clock;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.JFrame;
 
 // PaintLevel class main functions: calculate size of tiles,  
 // load textures, displays tiles and top menu
-public class PaintLevel {
+public class PaintLevel implements ActionListener {
 
     private Level levelToPaint;
     private int screenWidth;
@@ -17,6 +23,10 @@ public class PaintLevel {
     private int xRatioOffset = 0;
     private int yRatioOffset = 0;
     private int tileSizeX, tileSizeY;
+    private int step = tileSizeX / 4;
+
+    Timer myTimer = new Timer();
+//    TimerTask timerTask = new TimerTask() {};
 
     private BufferedImage screenBuffer = new BufferedImage(1550, 850, BufferedImage.TYPE_INT_RGB);
 
@@ -40,7 +50,6 @@ public class PaintLevel {
     // draw method draws on graphics object: top menu, and all tiles based on information 
     //  from 2D array levelToPaint 
     void draw(Graphics graphicsComp, int counter, int currentLevel) {
-        //  drawing on graphics object 
         //  drawing on screenBuffer 
         Graphics graphics = screenBuffer.getGraphics();
 
@@ -66,13 +75,13 @@ public class PaintLevel {
                 //   depending of moveble Player or Box adequate texture is applied
                 if (tileRow[j].getMovable() != null) {
                     graphics.drawImage(tileRow[j].getMovable().getTexture(),
-                            i * tileSizeX + xRatioOffset + 1, j * tileSizeX + yRatioOffset + 1,
+                            i * tileSizeX + xRatioOffset + 1 + step, j * tileSizeX + yRatioOffset + 1 + step,
                             tileSizeX - 2, tileSizeX - 2, null);
                 }
             }
         }
 
-//  rewrite graphics (memory area) to window (video memory) (component)
+        //  rewrite graphics (memory area) to window (video memory) (component)
         graphicsComp.drawImage(screenBuffer, 0, 0, null);
     }
 
@@ -83,4 +92,10 @@ public class PaintLevel {
                 j * tileSizeX + yRatioOffset,
                 tileSizeX, tileSizeX, null);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

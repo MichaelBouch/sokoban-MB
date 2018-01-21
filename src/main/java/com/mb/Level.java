@@ -5,7 +5,6 @@ import com.mb.tiles.Floor;
 import com.mb.tiles.Player;
 import com.mb.tiles.Socket;
 import com.mb.tiles.Wall;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
