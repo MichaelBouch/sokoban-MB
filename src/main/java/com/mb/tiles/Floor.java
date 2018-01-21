@@ -1,11 +1,11 @@
 package com.mb.tiles;
 
-import com.mb.TextureLoader;
 import java.awt.image.BufferedImage;
 
 public class Floor {
 
-    // variables available in whole program to define type of tiles
+    // parent class of all tiles - have fields and necessary getters and setters for each tile
+    // each tile contains it's texture to simplify painting method
     private Box movable;
     private BufferedImage texture;
 

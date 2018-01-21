@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
  *
  * @author user
  */
+//  class loading textures and returns BufferedImage when getter used 
 public class TextureLoader {
 
     private BufferedImage floor;
