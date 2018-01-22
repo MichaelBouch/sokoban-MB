@@ -13,7 +13,6 @@ import java.awt.event.KeyEvent;
 //  reads keyboard keys pressed: startKeyboardHandl dispatchKeyEvent methods
 public class Game {
 
-
     // stores number of moves in each level
     private int movesCounter;
     // stores number of current level
@@ -23,6 +22,7 @@ public class Game {
     // declaration of paintLevel object
     private PaintLevel paintLevel;
     private boolean initalized;
+
     // Game class constructor
     public Game() {
         initalized = false;
@@ -36,14 +36,10 @@ public class Game {
     //  overloading methods
     //  loading level methods catching exception when a texture cannot be found
     public boolean loadLevel() {
-        return loadLevel(1, screenWidth, screenHeight);
+        return loadLevel(1);
     }
 
     public boolean loadLevel(int levelNumber) {
-        return loadLevel(levelNumber, screenWidth, screenHeight);
-    }
-
-    public boolean loadLevel(int levelNumber, int width, int height) {
         initalized = false;
         movesCounter = 0;
         currentLevel = levelNumber;
@@ -51,7 +47,7 @@ public class Game {
         level = new Level();
         // loading map from txt file number - currentLevel
         level.createLevelFromFile(currentLevel);
-        paintLevel = new PaintLevel(level, width, height);
+        paintLevel = new PaintLevel(level, screenWidth, screenHeight);
         initalized = true;
         return true;
     }

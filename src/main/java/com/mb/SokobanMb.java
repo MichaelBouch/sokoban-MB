@@ -33,7 +33,7 @@ public class SokobanMb extends JFrame {
         // creates object from Game() class
         game = new Game();
         // calls loadLevel from game object to load first level with given screen size
-        game.loadLevel(1, screenWidth, screenHeight);
+        game.loadLevel(1);
         
         // calls startKeyboardHandl method to start keyboard manager
         game.startKeyboardHandl();

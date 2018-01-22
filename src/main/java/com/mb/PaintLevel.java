@@ -6,14 +6,12 @@ import com.mb.tiles.Floor;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import static java.lang.Double.min;
 
 // PaintLevel class main functions: calculate size of tiles,  
 // load textures, displays tiles and top menu
-public class PaintLevel implements ActionListener {
+public class PaintLevel{
 
     private Level levelToPaint;
     private int xRatioOffset = 0;
@@ -42,7 +40,7 @@ public class PaintLevel implements ActionListener {
     void draw(Graphics graphicsComp, int counter, int currentLevel) {
         //  drawing on screenBuffer 
         Graphics graphics = screenBuffer.getGraphics();
-
+        //  drawing top menu (level, moves instructions)
         graphics.setColor(Color.DARK_GRAY);
         graphics.fillRect(0, 0, screenWidth, screenHeight);
         graphics.setFont(new Font("Arial", Font.BOLD, 25));
@@ -83,10 +81,4 @@ public class PaintLevel implements ActionListener {
                 j * tileSizeX + yRatioOffset,
                 tileSizeX, tileSizeX, null);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

@@ -22,7 +22,6 @@ public class Floor {
     }
 
     public boolean isEmpty() {
-        System.out.println("tekstA " + getClass().getCanonicalName());
         return movable == null;
     }
 
