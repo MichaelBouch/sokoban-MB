@@ -25,6 +25,9 @@ public class TextureLoader {
                 case 3:
                     wall = ImageIO.read(getClass().getResource("/wall_brick.png"));
                     break;
+                default:
+                    wall = ImageIO.read(getClass().getResource("/wall_steel.png"));
+                    break;
             }
             box = ImageIO.read(getClass().getResource("/box1.png"));
             player = ImageIO.read(getClass().getResource("/player6.png"));

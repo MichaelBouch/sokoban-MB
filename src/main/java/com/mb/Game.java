@@ -1,11 +1,13 @@
 package com.mb;
 
+import static com.mb.SokobanMb.screenHeight;
+import static com.mb.SokobanMb.screenWidth;
 import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 
-//  Game class methods does:
+//  Game class methods:
 //  Load levels (calls nethod createLevelFromFile())
 //  paints level: drawLevel method
 //  reads keyboard keys pressed: startKeyboardHandl dispatchKeyEvent methods
@@ -34,11 +36,11 @@ public class Game {
     //  overloading methods
     //  loading level methods catching exception when a texture cannot be found
     public boolean loadLevel() {
-        return loadLevel(1);
+        return loadLevel(1, screenWidth, screenHeight);
     }
 
     public boolean loadLevel(int levelNumber) {
-        return loadLevel(levelNumber);
+        return loadLevel(levelNumber, screenWidth, screenHeight);
     }
 
     public boolean loadLevel(int levelNumber, int width, int height) {

@@ -1,5 +1,7 @@
 package com.mb;
 
+import static com.mb.SokobanMb.screenHeight;
+import static com.mb.SokobanMb.screenWidth;
 import com.mb.tiles.Floor;
 import java.awt.Color;
 import java.awt.Font;
@@ -8,33 +10,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import static java.lang.Double.min;
-import java.time.Clock;
-import java.util.Timer;
-import java.util.TimerTask;
-import javax.swing.JFrame;
 
 // PaintLevel class main functions: calculate size of tiles,  
 // load textures, displays tiles and top menu
 public class PaintLevel implements ActionListener {
 
     private Level levelToPaint;
-    private int screenWidth;
-    private int screenHeight;
     private int xRatioOffset = 0;
     private int yRatioOffset = 0;
     private int tileSizeX, tileSizeY;
-    private int step = tileSizeX / 4;
 
-    Timer myTimer = new Timer();
-//    TimerTask timerTask = new TimerTask() {};
-
-    private BufferedImage screenBuffer = new BufferedImage(1550, 850, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage screenBuffer = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
 
     // constructor receives 2D array levelToPaint object and screen sizes as parameters
     public PaintLevel(Level levelToPaint, int screenWidth, int screenHeight) {
         this.levelToPaint = levelToPaint;
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
 
         //  class attribute arrayOfMapElements get levelToPaint object
         Floor[][] tileMap = levelToPaint.getTileMap();
@@ -75,7 +65,8 @@ public class PaintLevel implements ActionListener {
                 //   depending of moveble Player or Box adequate texture is applied
                 if (tileRow[j].getMovable() != null) {
                     graphics.drawImage(tileRow[j].getMovable().getTexture(),
-                            i * tileSizeX + xRatioOffset + 1 + step, j * tileSizeX + yRatioOffset + 1 + step,
+                            i * tileSizeX + xRatioOffset + 1,
+                            j * tileSizeX + yRatioOffset + 1,
                             tileSizeX - 2, tileSizeX - 2, null);
                 }
             }

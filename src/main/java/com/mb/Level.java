@@ -32,19 +32,16 @@ public class Level {
     // file number passed by method parameter
     public void createLevelFromFile(int levelNumberToLoad) {
         textureLoader = new TextureLoader(levelNumberToLoad);
-        // file level?.txt leaded and divided by lines  (listOfStrings) stored in ArrayList lines
+        // file level?.txt loaded and divided by lines  (listOfStrings) stored in ArrayList lines
         ArrayList<String> listOfStrings = new ArrayList<>();
         Scanner loadedFile = new Scanner(Level.class.getResourceAsStream("/level" + levelNumberToLoad + ".txt"));
         // level Width and  level Height is defined by length of string and number of strings
         while (loadedFile.hasNextLine()) {
             listOfStrings.add(loadedFile.nextLine());
         }
-        for (String s : listOfStrings) {
-            System.out.println(s);
-        }
+
         levelWidth = listOfStrings.get(0).length();
         levelHeight = listOfStrings.size();
-        System.out.println("levelWidth: " + levelWidth + " levelHeight: " + levelHeight);
         // 2D array of Floor type elements is created
         Floor[][] tempLevel = new Floor[levelWidth][levelHeight];
         // each element of the 2D array is filled with Floor type object according to file characters (X or " " or . or @ or *)
